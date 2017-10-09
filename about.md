@@ -13,4 +13,4 @@ Let life be beautiful like summer flowers and death like autumn leaves.
 
 ### Contact me
 
-[email,yang@163.com](mailto:email.yang@163.com)
+[email.yang@163.com](mailto:email.yang@163.com)

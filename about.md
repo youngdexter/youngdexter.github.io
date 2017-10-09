@@ -4,12 +4,13 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+Welcome!
 
-### More Information
+### Stray birds
 
-A place to include any other types of information that you'd like to include about yourself.
+If you shed tears when you miss the sun, you also miss the stars.
+Let life be beautiful like summer flowers and death like autumn leaves.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[email,yang@163.com](mailto:email.yang@163.com)

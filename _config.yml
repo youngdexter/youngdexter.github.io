@@ -18,6 +18,7 @@ avatar: /images/jekyll-logo.png
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
+  microchat: microatto
   email: email.yang@163.com
   facebook:
   flickr:

@@ -5,7 +5,7 @@ permalink: /about/
 ---
 
 ### Devc++
-[https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg](https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg)<br>
+
 链接: <a href="https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg" target="_blank">https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg</a><br>
 提取码: isof
 

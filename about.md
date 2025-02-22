@@ -6,15 +6,15 @@ permalink: /about/
 
 ### Devc++
 
-链接: https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg<br>
+链接: <a href="https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg">https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg</a><br>
 提取码: isof
 
 ### code
 
-https://github.com/youngdexter/c<br>
-https://github.com/youngdexter/cp<br>
-https://github.com/youngdexter/algorithm<br>
-https://github.com/youngdexter/data<br>
+<a href="https://github.com/youngdexter/c">https://github.com/youngdexter/c</a><br>
+<a href="https://github.com/youngdexter/cp">https://github.com/youngdexter/cp</a><br>
+<a href="https://github.com/youngdexter/algorithm">https://github.com/youngdexter/algorithm</a><br>
+<a href="https://github.com/youngdexter/data">https://github.com/youngdexter/data</a><br>
 
 ### 微信
 

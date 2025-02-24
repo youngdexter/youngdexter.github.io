@@ -4,12 +4,12 @@ title: About
 permalink: /about/
 ---
 
-### Devc++
+### Devc++ 编程软件
 
 链接: <a href="https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg" target="_blank">https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg</a><br>
 提取码: isof
 
-### Code
+### Code 代码
 
 <a href="https://github.com/youngdexter/c" target="_blank">https://github.com/youngdexter/c</a><br>
 <a href="https://github.com/youngdexter/cp" target="_blank">https://github.com/youngdexter/cp</a><br>
@@ -20,7 +20,7 @@ permalink: /about/
 
 microatto
 
-### Email
+### Email 邮件
 
 [email.yang@163.com](mailto:email.yang@163.com)
 

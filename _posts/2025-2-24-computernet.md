@@ -10,6 +10,15 @@ title: 网络基础
       <li><a href="https://baike.baidu.com/item/TCP/IP%E5%8D%8F%E8%AE%AE/212915" target="_blank">TCP/IP</a></li>
     </ol>
   </li>
-  
+  <li>IP地址
+    <ol>
+      <li><a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80/150859" target="_blank">IP地址的概念</a></li>
+      <li>
+        <a href="https://baike.baidu.com/item/IPv4?fromModule=lemma_search-box" target="_blank">IPv4</a>与
+        <a href="https://baike.baidu.com/item/IPv6?fromModule=lemma_search-box" target="_blank">IPv6</a>
+      </li>
+      <li><a href="https://baike.baidu.com/item/TCP/IP%E5%8D%8F%E8%AE%AE/212915" target="_blank">IP地址表示方法</a></li>
+    </ol>
+  </li>
 </ol>
 

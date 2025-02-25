@@ -19,5 +19,12 @@ title: 网络基础
       <li><a href="https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80/150859#4" target="_blank">IP地址表示方法</a></li>
     </ol>
   </li>
+  <li>域名系统
+    <ol>
+      <li><a href="https://baike.baidu.com/item/%E5%9F%9F%E5%90%8D/86062" target="_blank">域名的概念</a></li>
+      <li><a href="https://baike.baidu.com/item/%E5%9F%9F%E5%90%8D%E7%BB%93%E6%9E%84/6176465?fr=aladdin" target="_blank">域名的组成</a></li>
+      <li><a href="https://baike.baidu.com/item/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90?fromModule=lemma_search-box" target="_blank">域名解析</a></li>     
+    </ol>
+  </li>
 </ol>
 

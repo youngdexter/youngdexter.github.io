@@ -26,10 +26,10 @@ title: 网络基础
       <li><a href="https://baike.baidu.com/item/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90?fromModule=lemma_search-box" target="_blank">域名解析</a></li>     
     </ol>
   </li>
-  <li>HTML基础知识
+  <li><a href="https://baike.baidu.com/item/HTML/97049" target="_blank">HTML基础知识</a>
     <ol>
-      <li><a href="https://baike.baidu.com/item/HTML/97049" target="_blank">HTML的用途</a></li>
-      <li><a href="https://baike.baidu.com/item/HTML/97049#2" target="_blank">HTML的发展历程</a></li>
+      <li>HTML的用途</li>
+      <li>HTML的发展历程</li>
     </ol>
   </li>
 </ol>

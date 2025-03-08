@@ -11,10 +11,10 @@ permalink: /about/
 
 ### Code 代码
 
-<a href="https://github.com/youngdexter/c" target="_blank">https://github.com/youngdexter/c</a><br>
-<a href="https://github.com/youngdexter/cp" target="_blank">https://github.com/youngdexter/cp</a><br>
-<a href="https://github.com/youngdexter/algorithm" target="_blank">https://github.com/youngdexter/algorithm</a><br>
-<a href="https://github.com/youngdexter/data" target="_blank">https://github.com/youngdexter/data</a><br>
+<a href="https://gitee.com/youngdexter/cc" target="_blank">https://gitee.com/youngdexter/cc</a><br>
+<a href="https://gitee.com/youngdexter/cp" target="_blank">https://gitee.com/youngdexter/cp</a><br>
+<a href="https://gitee.com/youngdexter/algorithm" target="_blank">https://gitee.com/youngdexter/algorithm</a><br>
+<a href="https://gitee.com/youngdexter/data" target="_blank">https://gitee.com/youngdexter/data</a><br>
 
 ### WeChat 微信
 

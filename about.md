@@ -15,7 +15,6 @@ permalink: /about/
 <a href="https://gitee.com/youngdexter/cp" target="_blank">https://gitee.com/youngdexter/cp</a><br>
 <a href="https://gitee.com/youngdexter/algorithm" target="_blank">https://gitee.com/youngdexter/algorithm</a><br>
 <a href="https://gitee.com/youngdexter/data" target="_blank">https://gitee.com/youngdexter/data</a><br>
-<a href="https://gitee.com/youngdexter" target="_blank">https://gitee.com/youngdexter</a><br>
 
 ### WeChat 微信
 

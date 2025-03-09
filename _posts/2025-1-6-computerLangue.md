@@ -2,6 +2,7 @@
 layout: post
 title: 计算机语言
 ---
+（注意保护视力，每次只学几分钟）
 <ol>
   <li><a href="https://baike.baidu.com/item/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%AD%E8%A8%80/4456504" target="_blank">计算机语言</a></li>
   <li><a href="https://baike.baidu.com/item/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/61826" target="_blank">汇编语言</a></li>

@@ -5,7 +5,7 @@ permalink: /CSP/
 ---
 
 ### CSP-J 2023
-
+<a href="https://blog.csdn.net/applelin2012/article/details/141198983" target="_blank">CSP-J 2023 入门级 第一轮 程序阅读（3）</a><br>
 <a href="https://blog.csdn.net/lq1990717/article/details/133184629" target="_blank">CSP-J 2023 入门级 第一轮 完善程序（1）</a><br>
 
 

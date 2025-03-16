@@ -13,8 +13,9 @@ permalink: /about/
 
 ### DevC++
 
-address: <a href="https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg" target="_blank">https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg</a><br>
-password: isof
+address:<br><a href="https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg" target="_blank">https://pan.baidu.com/s/1nWu4rbPSutuc4TaQNJ8RYg</a><br>
+password:<br>
+isof
 
 ### Stray birds
 

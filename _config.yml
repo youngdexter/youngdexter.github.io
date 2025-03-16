@@ -18,7 +18,7 @@ avatar: /images/topsoft-logo.png
 # Includes an icon in the footer for each username you enter
 footer-links:
   dribbble:
-  email: email.yang@163.com
+  email:
   facebook:
   flickr:
   github: login #barryclark/jekyll-now

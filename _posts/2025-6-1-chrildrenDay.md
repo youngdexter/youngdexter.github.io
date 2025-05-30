@@ -7,7 +7,7 @@ title: 儿童节快乐
 	width:800px;
 	margin: 0 auto;
 	position: relative;
-	background: url(../img/bg.jpg)
+	background: url(images/bg.jpg)
   }
   .go{
 	position: absolute;

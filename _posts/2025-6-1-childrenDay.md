@@ -2,6 +2,13 @@
 layout: post
 title: 儿童节快乐
 ---
+.mr-cont{
+	height:500px;
+	width:800px;
+	margin: 0 auto;
+	position: relative;
+	background: url(../img/bg.jpg)
+}
 
 <div class="mr-cont">
 <!--   风车-->

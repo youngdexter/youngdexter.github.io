@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>CSP-J 2024 入门级 第一轮（初赛） 完善程序（1）</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet"/>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .description { background: #f9f9f9; border: 1px solid #ddd; padding: 10px; margin-bottom: 20px; border-radius: 5px; overflow-x: auto; }
+    .question { margin-bottom: 20px; }
+    button { margin-top: 10px; padding: 8px 12px; }
+    .correct { color: green; font-weight: bold; }
+    .wrong { color: red; font-weight: bold; }
+
+    /* 进度条样式 */
+    .progress-container {
+      width: 100%;
+      background-color: #f3f3f3;
+      border-radius: 20px;
+      margin-top: 15px;
+      height: 25px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 20px;
+      text-align: center;
+      line-height: 25px;
+      color: white;
+      font-weight: bold;
+      width: 0%;
+      transition: width 1s ease-in-out;
+    }
+
+    /* 倒计时 */
+    #timer {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: darkblue;
+    }
+  </style>
+</head>
+<body>
+  <h1>CSP-J 2024 入门级 第一轮（初赛） 完善程序（1）</h1>
+
+  <!-- 倒计时显示 -->
+  <div id="timer">剩余时间：15:00</div>
+
+  <!-- 程序描述区 -->
+  <div class="description">
+<pre><code class="language-javascript">(1) (判断平方数) 问题：给定一个正整数 n，判断这个数 是不是完全平方数，即存在一个正整数 x 使得 x 的平方等于 n。试补全程序。
+
+#include<iostream>
+#include<vector>
+using namespace std;
+bool isSquare(int num){
+	int i = ___(1)___;
+	int bound =___(2)___;
+	for(;i<=bound;++i){
+		if(___(3)___){
+			return ___(4)___;
+		}
+	}
+	return ___(5)___;
+}
+int main(){
+	int n;
+	cin>>n;
+	if(isSquare(n)){
+		cout<< n<< " is a Square number"<< endl;
+	}else{
+		cout<< n<< " is not a Square number"<< endl;
+	}
+}
+</code></pre>
+  </div>
+
+  <!-- 题目区域 -->
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">提交答案</button>
+
+  <h2 id="result"></h2>
+  <div class="progress-container">
+    <div id="progress-bar" class="progress-bar">0%</div>
+  </div>
+
+  <!-- Prism 高亮库 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+
+  <script>
+    // 题目数据
+    const questions = [
+       {
+        text: "1. ①处应填（）",
+        options: ["A. 1", "B. 2", "C. 3", "D. 4"],
+        answer: [0],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "2. ②处应填（）",
+        options: ["A. (int) floor(sqrt(num)-1)", "B. (int)floor(sqrt(num))", "C. floor(sqrt(num/2))-1", "D. floor(sqrt(num/2))"],
+        answer: [1],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "3. ③处应填（）",
+        options:["A. num=2*i", "B. num== 2*i", "C. num=i*i", "D. num==i*i"],
+        answer: [3],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "4. ④处应填（）",
+        options: ["A. num= 2*i", "B.num==2*i", "C. true", "D. false"],
+        answer:[2,0],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "5. ⑤处应填（）",
+        options: ["A. num= i*i", "B.num!=2*i", "C. true", "D. false"],
+        answer: [3],
+        rule: "any",
+        score: 1
+      }
+    ];
+
+    // 渲染题目
+    const quizDiv = document.getElementById("quiz");
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+
+      //const isMulti = q.answer.length > 1 || q.rule === "any";
+      const isMulti = false;
+
+      div.innerHTML = `<p id="q${i}-text">${q.text} <small>（${q.score}分）</small></p>` 
+        + q.options.map((opt, j) =>
+          `<label><input type="${isMulti ? "checkbox" : "radio"}" name="q${i}" value="${j}"> ${opt}</label><br>`
+        ).join("") 
+        + `<p class="feedback" id="feedback${i}"></p>`;
+      quizDiv.appendChild(div);
+    });
+
+    // 提交判分
+    function submitQuiz(auto=false) {
+      let totalScore = 0;
+      let maxScore = questions.reduce((sum, q) => sum + q.score, 0);
+
+      questions.forEach((q, i) => {
+        const selected = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
+        let isCorrect = false;
+
+        if (q.rule === "all") {
+          isCorrect = selected.length === q.answer.length &&
+                      selected.every(val => q.answer.includes(val));
+        } else if (q.rule === "any") {
+          const hasCorrect = selected.some(val => q.answer.includes(val));
+          const hasWrong = selected.some(val => !q.answer.includes(val));
+          isCorrect = hasCorrect && !hasWrong;
+        }
+
+        if (isCorrect) totalScore += q.score;
+
+        const correctText = q.answer.map(idx => q.options[idx]).join("，");
+        document.getElementById(`feedback${i}`).innerHTML = isCorrect
+          ? `<span class="correct">✔ 回答正确，得 ${q.score} 分</span>（正确答案：${correctText}）`
+          : `<span class="wrong">✘ 回答错误，得 0 分</span>（正确答案：${correctText}）`;
+      });
+
+      document.getElementById("result").innerText =
+        (auto ? "⏰ 时间到，已自动提交！ " : "") +
+        `最终得分：${totalScore} / ${maxScore}`;
+
+      const percent = Math.round((totalScore / maxScore) * 100);
+      const progressBar = document.getElementById("progress-bar");
+      progressBar.style.width = percent + "%";
+      progressBar.innerText = percent + "%";
+
+      if (percent < 50) {
+        progressBar.style.backgroundColor = "red";
+      } else if (percent < 80) {
+        progressBar.style.backgroundColor = "orange";
+      } else {
+        progressBar.style.backgroundColor = "green";
+      }
+
+      // 停止计时
+      clearInterval(timerInterval);
+    }
+
+    // 倒计时逻辑
+    let timeLeft = 900; // 秒
+    const timerDiv = document.getElementById("timer");
+
+    function formatTime(seconds) {
+      const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    const timerInterval = setInterval(() => {
+      timeLeft--;
+      timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitQuiz(true); // 自动提交
+      }
+    }, 1000);
+
+    // 初始化显示
+    timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+  </script>
+</body>
+</html>

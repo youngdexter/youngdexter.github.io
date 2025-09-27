@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>CSP-J 2024 入门级 第一轮（初赛） 阅读程序（1）</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet"/>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .description { background: #f9f9f9; border: 1px solid #ddd; padding: 10px; margin-bottom: 20px; border-radius: 5px; overflow-x: auto; }
+    .question { margin-bottom: 20px; }
+    button { margin-top: 10px; padding: 8px 12px; }
+    .correct { color: green; font-weight: bold; }
+    .wrong { color: red; font-weight: bold; }
+
+    /* 进度条样式 */
+    .progress-container {
+      width: 100%;
+      background-color: #f3f3f3;
+      border-radius: 20px;
+      margin-top: 15px;
+      height: 25px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 20px;
+      text-align: center;
+      line-height: 25px;
+      color: white;
+      font-weight: bold;
+      width: 0%;
+      transition: width 1s ease-in-out;
+    }
+
+    /* 倒计时 */
+    #timer {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: darkblue;
+    }
+  </style>
+</head>
+<body>
+  <h1>CSP-J 2024 入门级 第一轮（初赛） 阅读程序（1）</h1>
+
+  <!-- 倒计时显示 -->
+  <div id="timer">剩余时间：15:00</div>
+
+  <!-- 程序描述区 -->
+  <div class="description">
+<pre><code class="language-javascript">1 #include <iostream>
+2 using namespace std;
+3
+4 bool isPrime(int n) {
+5 		if (n <= 1) {
+6 			return false;
+7 		}
+8 		for (int i = 2; i * i <= n; i++) {
+9 			if (n % i == 0) {
+10 				return false;
+11 			}
+12 		}
+13 		return true;
+14 }
+15
+16 int countPrimes(int n) {
+17 		int count = 0;
+18 		for (int i = 2; i <= n; i++) {
+19 			if (isPrime(i)) {
+20 				count++;
+21 			}
+22 		}
+23 		return count;
+24 }
+25
+26 int sumPrimes(int n) {
+27 		int sum = 0;
+28 		for (int i = 2; i <= n; i++) {
+29 			if (isPrime(i)) {
+30 				sum += i;
+31 			}
+32 		}
+33 		return sum;
+34 }
+35
+36 int main() {
+37 		int x;
+38 		cin >> x;
+39 		cout << countPrimes(x) << " " << sumPrimes(x) << endl;
+40 		return 0;
+41 }
+</code></pre>
+  </div>
+
+  <!-- 题目区域 -->
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">提交答案</button>
+
+  <h2 id="result"></h2>
+  <div class="progress-container">
+    <div id="progress-bar" class="progress-bar">0%</div>
+  </div>
+
+  <!-- Prism 高亮库 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+
+  <script>
+    // 题目数据
+    const questions = [
+       {
+        text: "1. 当输入为“10”时，程序的第一个输出为“4”，第二个输出为“17”。",
+        options: ["A. T", "B. F"],
+        answer: [0],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "2. 若将 isPrime(i)函数种的条件改为 i<=n/2,输入“20”时，countPrimes(20)的输出将变为“6”。",
+        options: ["A. T", "B. F"],
+        answer: [1],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "3. sumPrimes 函数计算的是从 2 到 n 之间的所有素数之和。",
+        options:["A. T", "B. F"],
+        answer: [0],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "4. 当输入为“50”时，sumPrimes(50)的输出为（ ）",
+        options: ["A. 1060", "B. 328", "C. 381", "D. 275"],
+        answer:[1],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "5. 如果将 for(int i=2;i*i<=n;i++)改为 for(int i=2;i<=n;i++),输入“10”时，程序的输出（ ）",
+        options: ["A. 将不能正确计算 10 以内素数个数及其和", "B. 仍然输出4和17", "C. 输出3和 10", "D. 输出结果不变，但运行时间更短"],
+        answer: [0],
+        rule: "any",
+        score: 1
+      }
+    ];
+
+    // 渲染题目
+    const quizDiv = document.getElementById("quiz");
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+
+      //const isMulti = q.answer.length > 1 || q.rule === "any";
+      const isMulti = false;
+
+      div.innerHTML = `<p id="q${i}-text">${q.text} <small>（${q.score}分）</small></p>` 
+        + q.options.map((opt, j) =>
+          `<label><input type="${isMulti ? "checkbox" : "radio"}" name="q${i}" value="${j}"> ${opt}</label><br>`
+        ).join("") 
+        + `<p class="feedback" id="feedback${i}"></p>`;
+      quizDiv.appendChild(div);
+    });
+
+    // 提交判分
+    function submitQuiz(auto=false) {
+      let totalScore = 0;
+      let maxScore = questions.reduce((sum, q) => sum + q.score, 0);
+
+      questions.forEach((q, i) => {
+        const selected = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
+        let isCorrect = false;
+
+        if (q.rule === "all") {
+          isCorrect = selected.length === q.answer.length &&
+                      selected.every(val => q.answer.includes(val));
+        } else if (q.rule === "any") {
+          const hasCorrect = selected.some(val => q.answer.includes(val));
+          const hasWrong = selected.some(val => !q.answer.includes(val));
+          isCorrect = hasCorrect && !hasWrong;
+        }
+
+        if (isCorrect) totalScore += q.score;
+
+        const correctText = q.answer.map(idx => q.options[idx]).join("，");
+        document.getElementById(`feedback${i}`).innerHTML = isCorrect
+          ? `<span class="correct">✔ 回答正确，得 ${q.score} 分</span>（正确答案：${correctText}）`
+          : `<span class="wrong">✘ 回答错误，得 0 分</span>（正确答案：${correctText}）`;
+      });
+
+      document.getElementById("result").innerText =
+        (auto ? "⏰ 时间到，已自动提交！ " : "") +
+        `最终得分：${totalScore} / ${maxScore}`;
+
+      const percent = Math.round((totalScore / maxScore) * 100);
+      const progressBar = document.getElementById("progress-bar");
+      progressBar.style.width = percent + "%";
+      progressBar.innerText = percent + "%";
+
+      if (percent < 50) {
+        progressBar.style.backgroundColor = "red";
+      } else if (percent < 80) {
+        progressBar.style.backgroundColor = "orange";
+      } else {
+        progressBar.style.backgroundColor = "green";
+      }
+
+      // 停止计时
+      clearInterval(timerInterval);
+    }
+
+    // 倒计时逻辑
+    let timeLeft = 900; // 秒
+    const timerDiv = document.getElementById("timer");
+
+    function formatTime(seconds) {
+      const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    const timerInterval = setInterval(() => {
+      timeLeft--;
+      timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitQuiz(true); // 自动提交
+      }
+    }, 1000);
+
+    // 初始化显示
+    timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+  </script>
+</body>
+</html>

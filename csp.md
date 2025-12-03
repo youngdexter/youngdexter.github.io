@@ -1,7 +1,7 @@
 ---
 layout: page
 title: CSP
-permalink: /CSP/
+permalink: /csp/
 ---
 
 ### CSP-J 2024

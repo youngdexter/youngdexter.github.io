@@ -6,7 +6,7 @@ permalink: /about/
 
 ### about
 
-<p>微信：microatto</p>
+<p>wechat：microatto</p>
 
 ### Stray birds
 

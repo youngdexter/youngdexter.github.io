@@ -4,7 +4,7 @@ title: Code
 permalink: /code/
 ---
 
-### Code
+### C++
 
 <a href="https://gitee.com/youngdexter/cc" target="_blank">https://gitee.com/youngdexter/cc</a><br>
 <a href="https://gitee.com/youngdexter/cp" target="_blank">https://gitee.com/youngdexter/cp</a><br>

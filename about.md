@@ -4,9 +4,9 @@ title: about
 permalink: /about/
 ---
 
-### about
+### wechat
 
-<p>wechat：microatto</p>
+microatto
 
 ### Stray birds
 

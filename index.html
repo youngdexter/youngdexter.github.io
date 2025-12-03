@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOI 信息学奥林匹克</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            background-color: #f0f2f5;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* 轮播容器 */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slideshow {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            --before-bg: url('img/background1.jpg');
+        }
+
+        .slideshow::before,
+        .slideshow::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 0;
+        }
+
+        .slideshow::before {
+            background-image: var(--before-bg);
+            opacity: 1;
+        }
+
+        .slideshow::after {
+            background-image: var(--after-bg, url('img/background2.jpg'));
+        }
+
+        .slideshow.show-after::before { opacity: 0; }
+        .slideshow.show-after::after { opacity: 1; }
+
+        /* 遮罩层 */
+        .mask {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            z-index: 2;
+            padding: 20px;
+        }
+
+        /* 标题样式 */
+        .main-title {
+            font-size: 4em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.8em;
+            font-weight: 300;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        /* 导航链接样式 */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        .nav-link {
+            padding: 18px 40px;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .nav-link i {
+            font-size: 1.3em;
+        }
+
+        /* 快速访问区域 */
+        .quick-access {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            z-index: 3;
+            text-align: center;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .quick-links {
+            display: inline-flex;
+            gap: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quick-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* 页脚 */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9em;
+            z-index: 3;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5em;
+            }
+            
+            .subtitle {
+                font-size: 1.3em;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+                width: 90%;
+            }
+            
+            .nav-link {
+                padding: 15px 30px;
+                font-size: 1em;
+                min-width: auto;
+            }
+            
+            .quick-links {
+                flex-wrap: wrap;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+            
+            .quick-link {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+        }
+
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 轮播图背景 -->
+    <div class="slideshow-container">
+        <div class="slideshow">
+            <div class="mask"></div>
+        </div>
+        
+        <!-- 主要内容 -->
+        <div class="main-content">
+            <h1 class="main-title">信息学奥林匹克</h1>
+            <p class="subtitle">National Olympiad in Informatics</p>
+            
+            <!-- 主要导航链接 -->
+            <div class="nav-links">
+                <a href="https://aosai.xyz" target="_blank" class="nav-link">
+                    <i class="fas fa-file-alt"></i>CSP 在线练习
+                </a>
+                <a href="https://isoft.top" target="_blank" class="nav-link">
+                    <i class="fas fa-laptop-code"></i>GESP 在线练习
+                </a>
+                <a href="https://aosai.xin/study" target="_blank" class="nav-link">
+                    <i class="fas fa-book"></i>学习资源
+                </a>
+                <a href="https://www.noi.cn/" target="_blank" class="nav-link">
+                    <i class="fas fa-trophy"></i>竞赛信息
+                </a>
+            </div>
+        </div>
+        
+        <!-- 快速访问链接 -->
+        <div class="quick-access">
+            <div class="quick-links">
+                <a href="https://aosai.xin/study" target="_blank" class="quick-link">
+                    <i class="fas fa-play-circle"></i>学习资源
+                </a>
+                <a href="https://aosai.xin/csp" target="_blank" class="quick-link">
+                    <i class="fas fa-history"></i>历年真题
+                </a>
+                <a href="https://aosai.xin/code" target="_blank" class="quick-link">
+                    <i class="fas fa-cog fa-spin"></i>程序代码
+                </a>
+                <a href="https://www.noi.cn/" target="_blank" class="quick-link">
+                    <i class="fas fa-comments"></i>竞赛信息
+                </a>
+                <a href="/about" target="_blank" class="quick-link">
+                    <i class="fas fa-info-circle"></i>关于我们
+                </a>
+            </div>
+        </div>
+        
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>Copyright &copy; 2025 AoSai All Rights Reserved</p>
+        </div>
+    </div>
+
+    <script>
+        // 轮播图片配置
+        const slideshow = document.querySelector(".slideshow");
+        const images = [
+            "img/background1.jpg",
+            "img/background2.jpg", 
+            "img/background3.jpg"
+        ];
+        
+        let index = 0;
+        let showingBefore = true;
+
+        // 预加载图片
+        images.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        // 轮播切换
+        setInterval(() => {
+            index = (index + 1) % images.length;
+            
+            if (showingBefore) {
+                slideshow.style.setProperty("--after-bg", `url(${images[index]})`);
+                slideshow.classList.add("show-after");
+            } else {
+                slideshow.style.setProperty("--before-bg", `url(${images[index]})`);
+                slideshow.classList.remove("show-after");
+            }
+            
+            showingBefore = !showingBefore;
+        }, 5000);
+
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId !== '#') {
+                    document.querySelector(targetId)?.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入 Font Awesome 图标库 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 大图背景 -->
+    <header>
+
+  	<div class="slideshow">
+    		<!-- 遮罩层 -->
+    		<div class="mask"></div>
+
+    		<!-- 覆盖内容 -->
+    		<div class="overlay">
+                	<h1>National Olympiad in Informatics</h1>
+                	<p>CSP</p>
+                	<a href="#year-selection" class="btn">开始测验</a>
+    		</div>
+  	</div>
+
+    </header>
+
+    <!-- Logo 模块 -->
+    <section id="logo-section" class="logo-section">
+        <div class="container">
+            <img src="img/logo.png" alt="Logo" class="logo">
+        </div>
+
+    </section>
+
+<!-- 年份选择模块 -->
+<section id="year-selection" class="year-selection">
+    <div class="container">
+        <div class="row">
+            <h3>请选择年份 级别 轮次</h3>
+            <select id="year-select" class="exam-select">
+                <option value="2024">2024 年</option>
+                <option value="2023">2023 年</option>
+            </select>
+            <select id="grade-select" class="exam-select">
+                <option value="cspj">CSP-J</option>
+                <option value="csps">CSP-S</option>
+            </select>
+            <select id="round-select" class="exam-select">
+                <option value="round1">第1轮</option>
+                <option value="round2">第2轮</option>
+            </select>
+        </div>
+    </div>
+</section>
+
+
+    <!-- 服务模块 -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="service-cards">
+                <!-- 选择题 -->
+                <div class="card">
+                    <h3>选择题</h3>
+                    <button onclick="jumpToTestPage('exam')">开始答题</button>
+                </div>
+
+		        <!-- 程序阅读 -->
+                <div class="card">
+                    <div class= "row">
+                        <h3>程序阅读</h3>
+                        <select id="program-select" class="exam-select">
+                            <option value="program1"> 1</option>
+                            <option value="program2"> 2</option>
+			    <option value="program3"> 3</option>
+                        </select>
+                    </div>
+                    <button onclick="jumpToTestPage('program')">开始答题</button>
+                </div>
+
+                <!-- 完善程序 -->
+                <div class="card">
+                    <div class="row">
+                        <h3>完善程序</h3>
+                        <select id="improve-program" class="exam-select">
+                            <option value="improve1"> 1</option>
+                            <option value="improve2"> 2</option>
+                        </select>
+                    </div>
+                    <button onclick="jumpToTestPage('improve')">开始答题</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- 底部 -->
+<footer>
+    <div class="footer-text">
+        <p>&copy; 2025 Aosai All Rights Reserved.</p>
+        <a href="https://isoft.top" target="_blank" class="footer-logo">
+            <img src="img/logo.png" alt="Logo">
+        </a>
+    </div>
+</footer>
+
+    <!-- JavaScript 功能 -->
+    <script>
+
+	// 禁止复制操作
+        document.addEventListener('copy', function (e) {
+            e.preventDefault(); // 禁止默认复制操作
+            alert('复制操作被禁用'); // 弹出提示
+        });
+
+//轮播
+    const slideshow = document.querySelector(".slideshow");
+    const images =  ["../img/background1.jpg", "../img/background2.jpg", "../img/background3.jpg"];  // 替换成你自己的图片路径
+
+    let index = 0;
+    let showingBefore = true;
+
+    setInterval(() => {
+      index = (index + 1) % images.length;
+
+      if (showingBefore) {
+        slideshow.style.setProperty("--after-bg", `url(${images[index]})`);
+        slideshow.classList.add("show-after");
+      } else {
+        slideshow.style.setProperty("--before-bg", `url(${images[index]})`);
+        slideshow.classList.remove("show-after");
+      }
+
+      showingBefore = !showingBefore;
+    }, 5000); // 每 5 秒切换一次
+
+//点击按钮
+        function jumpToTestPage(type) {
+            const selectedYear = document.getElementById('year-select').value; // 获取选择的年份
+	    const selectedRound = document.getElementById('round-select').value; // 获取选择的轮次
+	    const selectedGrade = document.getElementById('grade-select').value; // 获取选择的轮次
+            let selectedValue;
+            let url = ''; // 存储跳转的 URL
+
+            if (type === 'exam') {
+                // 选择题，不需要额外的选择
+                url = `csp/${selectedYear}-${selectedGrade}-${selectedRound}-choice.html`;
+            } else if (type === 'program') {
+                // 获取选择的程序
+                selectedValue = document.getElementById('program-select').value;
+                url = `csp/${selectedYear}-${selectedGrade}-${selectedRound}-${selectedValue}.html`;
+            } else if (type === 'improve') {
+                // 获取选择的程序改进
+                selectedValue = document.getElementById('improve-program').value;
+                url = `csp/${selectedYear}-${selectedGrade}-${selectedRound}-${selectedValue}.html`;
+            }
+
+            // 跳转到相应的测试页面
+            window.location.href = url; 
+        }
+    </script>
+</body>
+</html>

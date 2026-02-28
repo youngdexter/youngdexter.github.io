@@ -1,0 +1,421 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* 大图背景 + 居中内容 */
+header {
+    background: url('https://via.placeholder.com/1920x1080') no-repeat center center/cover;
+    height: 100vh;
+    position: relative;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+}
+
+    /* 轮播容器 */
+    .slideshow {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      --before-bg: url('../img/background1.jpg'); /* 初始背景，确保一开始就有 */
+    }
+
+    .slideshow::before,
+    .slideshow::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: 0; /* 背景层 */
+    }
+
+    .slideshow::before {
+      background-image: var(--before-bg);
+      opacity: 1; /* 初始显示 */
+    }
+
+    .slideshow::after {
+      background-image: var(--after-bg, url('../img/background2.jpg')); /* 备用，JS 会更新 */
+    }
+
+    /* 切换状态 */
+    .slideshow.show-after::before { opacity: 0; }
+    .slideshow.show-after::after  { opacity: 1; }
+
+    /* 半透明遮罩层 */
+    .mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+    /* 内容层 */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      z-index: 2;
+    }
+
+/* 中间内容 */
+.overlay h1 {
+    font-size: 4em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.overlay p {
+    font-size: 1.5em;
+    font-weight: 300;
+    margin-bottom: 20px;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+
+
+
+
+/* 基本按钮样式 */
+.overlay .btn {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.7); /* 背景色半透明 */
+  border: none;
+  border-radius: 50px; /* 圆角按钮 */
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* 悬停状态 */
+.overlay .btn:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* 悬停时背景变亮 */
+  color: #000; /* 文字颜色变深 */
+  transform: scale(1.1); /* 鼠标悬停时按钮稍微放大 */
+}
+
+/* 按钮聚焦状态 */
+.overlay .btn:focus {
+  outline: none;
+}
+
+/* 可选：为按钮添加阴影效果 */
+.overlay .btn {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+
+/* Logo 模块 */
+.logo-section {
+    background-color: #f9f9f9;
+    padding: 60px 0;   /* 控制内边距，调整 logo 和其他内容的间距 */
+    text-align: center;
+    height: auto;       /* 高度自适应 */
+}
+
+/* Logo 图片样式 */
+.logo-section img {
+    max-width: 30%;     /* 确保 logo 的宽度最大为容器的宽度 */
+    max-width: 150px;
+    height: auto;        /* 保持宽高比 */
+    margin-bottom: 20px; /* 设置与下方内容的间距 */
+}
+
+/* 年份选择模块 */
+.year-selection {
+    background-color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+    height: auto;
+}
+
+/* 年份选择行 */
+.year-selection .row {
+    display: flex;
+    align-items: center;  /* 确保内容垂直居中 */
+    justify-content: center;  /* 水平居中对齐 */
+    gap: 10px;  /* 文字和下拉框之间的间隔 */
+    flex-wrap: wrap;  /* 当空间不足时自动换行 */
+}
+
+/* 年份选择文字样式 */
+.year-selection .row h3 {
+    font-size: 1.5em;  /* 设置字体大小 */
+    margin: 0;         /* 去掉外边距 */
+    color: #333;       /* 文字颜色 */
+    font-weight: 600;  /* 字体加粗 */
+}
+
+/* 年份选择模块中的下拉框样式 */
+.year-selection .row select {
+    font-size: 1.2em;         /* 设置下拉框字体大小 */
+    padding: 5px;
+    width: 100px;             /* 设置宽度 */
+    border-radius: 5px;       /* 设置圆角 */
+    border: 1px solid #ccc;   /* 设置边框 */
+}
+
+/* 适应不同屏幕的响应式设计 */
+@media screen and (max-width: 768px) {
+    .year-selection .row {
+        flex-direction: column;  /* 小屏幕上，纵向排列 */
+        gap: 15px;  /* 增加间隔 */
+    }
+
+    .year-selection .row select {
+        width: 150px;  /* 设置下拉框的宽度 */
+    }
+}
+
+
+/* 服务模块 */
+.services {
+    padding: 30px 0;
+    background-color: #fff;
+    text-align: center;
+}
+
+.services h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.service-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* 卡片样式 */
+.card {
+    background: #f4f4f4;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 280px;
+    text-align: center;
+}
+
+/* 卡片标题样式 */
+.card h3 {
+    font-size: 1.5em;
+    margin-bottom: 0px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* 卡片正文样式 */
+.card p {
+    font-size: 1em;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* 通用行布局，文字和下拉框 */
+.card .row {
+    display: flex;
+    align-items: center;      /* 垂直居中对齐 */
+    justify-content: center;  /* 水平居中对齐 */
+    gap: 10px;                /* 文字和下拉框之间的间隔 */
+    margin-bottom: 0px;      /* 每行之间的间距 */
+}
+
+/* 下拉框样式 */
+.card .row select {
+    font-size: 1.2em;
+    padding: 5px;
+    width: 80px;              /* 设置下拉框宽度 */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* 按钮样式 */
+.card button {
+    padding: 20px 40px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(45deg, #6aabbf, #95c4d8); /* 温和的蓝绿色渐变 */
+    border: none;
+    border-radius: 30px; /* 圆角按钮 */
+    cursor: pointer;
+    transition: all 0.4s ease-in-out; /* 过渡效果平滑一些 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 细腻阴影 */
+    margin-top: 20px; /* 保证按钮与上方内容之间有一致的间距 */
+    text-transform: uppercase; /* 按钮文字大写 */
+    letter-spacing: 1px; /* 字母间距增加 */
+    background-size: 400% 400%; /* 渐变背景效果的扩展范围 */
+    animation: gradientFlow 5s ease-in-out infinite; /* 动态渐变流动效果 */
+}
+
+/* 动态渐变背景动画 */
+@keyframes gradientFlow {
+    0% {
+        background-position: 100% 0%;
+    }
+    50% {
+        background-position: 0% 100%;
+    }
+    100% {
+        background-position: 100% 0%;
+    }
+}
+
+/* 鼠标悬停时按钮的变化 */
+.card button:hover {
+    background: linear-gradient(45deg, #95c4d8, #6aabbf); /* 渐变背景反转 */
+    transform: scale(1.05); /* 缓和的放大效果 */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); /* 阴影增强，创造轻微浮动感 */
+}
+
+/* 鼠标点击时的效果 */
+.card button:active {
+    transform: scale(1); /* 恢复原始大小 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 恢复阴影 */
+}
+
+/* 按钮文本聚焦 */
+.card button:focus {
+    outline: none;
+}
+
+/* 按钮背景动画的平滑过渡 */
+.card button {
+    animation: gradientFlow 5s ease-in-out infinite; /* 渐变动画时间调整 */
+}
+
+/* 底部样式 */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+}
+
+/* 包含 logo 和文本的容器 */
+.footer-container {
+    display: flex;
+    flex-direction: column;  /* 垂直排列内容 */
+    justify-content: center;
+    align-items: center;
+}
+
+/* 文字内容：版权信息和联系方式 */
+/* 底部样式 */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+}
+
+/* 包含 logo 和文本的容器 */
+.footer-container {
+    display: flex;
+    flex-direction: column;  /* 垂直排列内容 */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Footer 样式 */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* 屏幕窄时自动换行 */
+    gap: 10px; /* 文字与 logo 之间间距 */
+}
+
+footer .footer-text {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; /* 屏幕窄时文字自动换行 */
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+footer .footer-logo {
+    display: inline-block;
+    width: 24px;  /* logo 宽度，可自适应 */
+    height: auto;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+footer .footer-logo img {
+    width: 100%;
+    height: auto;
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 768px) {
+    .service-cards {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .card {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .content h1 {
+        font-size: 2.5em;
+    }
+
+    .content p {
+        font-size: 1.2em;
+    }
+}

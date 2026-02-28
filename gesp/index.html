@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GESP 考试系统 - 单选、判断</title>
+    <style>
+        /* 样式保持不变，与之前相同 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0a0f1a 0%, #121826 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(42, 127, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #2a7fff, #00bcd4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+
+        .selection-section {
+            background: rgba(18, 24, 38, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid #2a3a5a;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .selection-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .selection-title h3 {
+            font-size: 1.8rem;
+            color: #fff;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .selection-title h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #2a7fff, #00bcd4);
+            border-radius: 3px;
+        }
+
+        .selection-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .selection-item {
+            flex: 1 1 200px;
+            min-width: 180px;
+        }
+
+        .selection-item label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaa;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .exam-select {
+            width: 100%;
+            padding: 15px 20px;
+            background: #1e2a3a;
+            border: 2px solid #2a3a5a;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232a7fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        .exam-select:hover {
+            border-color: #2a7fff;
+            background-color: #23354a;
+            box-shadow: 0 0 15px rgba(42, 127, 255, 0.3);
+        }
+
+        .exam-select:focus {
+            outline: none;
+            border-color: #2a7fff;
+            box-shadow: 0 0 0 3px rgba(42, 127, 255, 0.3);
+        }
+
+        .exam-select option {
+            background: #1e2a3a;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .enter-btn {
+            flex: 1 1 150px;
+            min-width: 150px;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #2a7fff, #1a5fd8);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(42, 127, 255, 0.4);
+        }
+
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .enter-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(42, 127, 255, 0.6);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .enter-btn:active {
+            transform: translateY(0);
+        }
+
+        .enter-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: linear-gradient(135deg, #4a4a5a, #3a3a4a);
+        }
+
+        /* 提醒筛选条 */
+        .filter-notice {
+            background: rgba(42, 127, 255, 0.15);
+            border: 1px solid #2a7fff;
+            border-radius: 50px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(42, 127, 255, 0.2);
+        }
+
+        .filter-notice-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+        }
+
+        .filter-notice-left svg {
+            width: 24px;
+            height: 24px;
+            fill: #2a7fff;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-tag {
+            background: rgba(42, 127, 255, 0.25);
+            border: 1px solid #2a7fff;
+            border-radius: 30px;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tag:hover {
+            background: rgba(42, 127, 255, 0.4);
+            transform: scale(1.02);
+        }
+
+        .filter-tag .remove {
+            color: #aaa;
+            font-size: 1.2rem;
+            line-height: 1;
+            margin-left: 4px;
+        }
+
+        .filter-tag .remove:hover {
+            color: #f44336;
+        }
+
+        .filter-clear {
+            background: transparent;
+            border: 1px solid #666;
+            border-radius: 30px;
+            padding: 6px 16px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .filter-clear:hover {
+            border-color: #f44336;
+            color: #f44336;
+        }
+
+        .exam-list-section {
+            background: rgba(18, 24, 38, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #2a3a5a;
+            margin-top: 30px;
+        }
+
+        .exam-list-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #2a3a5a;
+        }
+
+        .exam-list-title h3 {
+            color: #fff;
+            font-size: 1.4rem;
+        }
+
+        .exam-list-title span {
+            color: #2a7fff;
+            font-weight: bold;
+            background: rgba(42, 127, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .exam-card {
+            background: #1e2a3a;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exam-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(42, 127, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .exam-card:hover {
+            border-color: #2a7fff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .exam-card:hover::before {
+            left: 100%;
+        }
+
+        .exam-card.selected {
+            border-color: #2a7fff;
+            background: #233a4a;
+            box-shadow: 0 0 20px rgba(42, 127, 255, 0.3);
+        }
+
+        .exam-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .exam-type {
+            background: rgba(42, 127, 255, 0.2);
+            color: #2a7fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .exam-subtype {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .exam-duration {
+            color: #aaa;
+            font-size: 0.85rem;
+        }
+
+        .exam-card h4 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .exam-desc {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .exam-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 0.8rem;
+            border-top: 1px solid #2a3a5a;
+            padding-top: 15px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            fill: #2a3a5a;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: rgba(30, 42, 58, 0.7);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .breadcrumb-item {
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb-item:hover {
+            color: #2a7fff;
+        }
+
+        .breadcrumb-item.active {
+            color: #2a7fff;
+            font-weight: bold;
+        }
+
+        .breadcrumb-separator {
+            color: #444;
+            font-size: 14px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #2a7fff;
+            font-size: 1.2rem;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            border: 3px solid #2a7fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 30px;
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .selection-section {
+                padding: 25px;
+            }
+
+            .selection-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .selection-item {
+                width: 100%;
+            }
+
+            .enter-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .exam-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .breadcrumb {
+                flex-wrap: wrap;
+            }
+
+            .filter-notice {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .selection-section {
+                padding: 20px;
+            }
+
+            .selection-title h3 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            
+            .exam-card::before,
+            .enter-btn::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>GESP 在线考试系统</h1>
+            <p>单选、判断</p>
+        </header>
+
+        <section class="selection-section">
+            <div class="selection-title">
+                <h3>请选择考试信息</h3>
+            </div>
+            <div class="selection-row">
+                <div class="selection-item">
+                    <label for="year-select">年份</label>
+                    <select id="year-select" class="exam-select">
+                        <option value="">全部年份</option>
+                    </select>
+                </div>
+
+                <div class="selection-item">
+                    <label for="month-select">月份</label>
+                    <select id="month-select" class="exam-select">
+                        <option value="">全部月份</option>
+                    </select>
+                </div>
+
+                <div class="selection-item">
+                    <label for="grade-select">等级</label>
+                    <select id="grade-select" class="exam-select">
+                        <option value="">全部等级</option>
+                    </select>
+                </div>
+
+                <!-- 题型筛选下拉框 - 自动从数据生成 -->
+                <div class="selection-item">
+                    <label for="type-select">题型</label>
+                    <select id="type-select" class="exam-select">
+                        <option value="">全部题型</option>
+                    </select>
+                </div>
+
+                <button id="enter-exam-btn" class="enter-btn" disabled>进入考试</button>
+            </div>
+        </section>
+
+        <!-- 提醒筛选条 - 自动显示当前筛选条件 -->
+        <div class="filter-notice" id="filter-notice" style="display: none;">
+            <div class="filter-notice-left">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <span>当前筛选：</span>
+                <div class="filter-tags" id="filter-tags">
+                    <!-- 动态显示筛选标签 -->
+                </div>
+            </div>
+            <button class="filter-clear" id="filter-clear" onclick="resetFilters()">清除所有筛选</button>
+        </div>
+
+        <div class="breadcrumb" id="breadcrumb">
+            <span class="breadcrumb-item active" data-level="root">全部考试</span>
+        </div>
+
+        <section class="exam-list-section" id="exam-list-section">
+            <div class="exam-list-title">
+                <h3 id="folder-title">考试列表</h3>
+                <span id="exam-count">0 个文件</span>
+            </div>
+            <div id="exam-list" class="exam-grid">
+                <div class="loading">加载中...</div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ==================== 全局变量 ====================
+        let examsData = [];
+        let currentYear = '';
+        let currentMonth = '';
+        let currentGrade = '';
+        let currentType = '';
+
+        // ==================== DOM 元素 ====================
+        const yearSelect = document.getElementById('year-select');
+        const monthSelect = document.getElementById('month-select');
+        const gradeSelect = document.getElementById('grade-select');
+        const typeSelect = document.getElementById('type-select');
+        const enterBtn = document.getElementById('enter-exam-btn');
+        const examListDiv = document.getElementById('exam-list');
+        const examCountSpan = document.getElementById('exam-count');
+        const folderTitle = document.getElementById('folder-title');
+        const breadcrumbDiv = document.getElementById('breadcrumb');
+        const filterNotice = document.getElementById('filter-notice');
+        const filterTags = document.getElementById('filter-tags');
+
+        // ==================== 等级映射 ====================
+        const gradeMap = {
+            '1dx': '一级',
+            '2dx': '二级', 
+            '3dx': '三级',
+            '4dx': '四级',
+            '5dx': '五级',
+            '6dx': '六级',
+            '7dx': '七级',
+            '8dx': '八级'
+        };
+
+        // 题型映射
+        const typeMap = {
+            'dx': '单选题',
+            'pd': '判断题',
+            'tk': '填空题',
+            'jd': '简答题'
+        };
+
+        // ==================== 内联数据（包含判断题） ====================
+        const EXAM_DATA = {
+            "exams": [
+                {
+                    "id": "gesp2025031dx",
+                    "year": "2025",
+                    "month": "03",
+                    "grade": "1dx",
+                    "gradeName": "一级",
+                    "title": "GESP 2025年3月 一级 单选题",
+                    "description": "C++ 程序设计基础",
+                    "duration": 20,
+                    "questions": 15,
+                    "type": "dx"
+                },
+                {
+                    "id": "gesp2025031pd",
+                    "year": "2025",
+                    "month": "03",
+                    "grade": "1dx",
+                    "gradeName": "一级",
+                    "title": "GESP 2025年3月 一级 判断题",
+                    "description": "C++ 程序设计基础 - 判断题",
+                    "duration": 10,
+                    "questions": 10,
+                    "type": "pd"
+                },
+                {
+                    "id": "gesp2025061dx",
+                    "year": "2025",
+                    "month": "06",
+                    "grade": "1dx",
+                    "gradeName": "一级",
+                    "title": "GESP 2025年6月 一级 单选题",
+                    "description": "C++ 程序设计基础",
+                    "duration": 20,
+                    "questions": 15,
+                    "type": "dx"
+                }
+            ]
+        };
+
+        // ==================== 加载数据 ====================
+        function loadExamsData() {
+            try {
+                // 直接从内联数据加载
+                examsData = EXAM_DATA.exams;
+                
+                if (examsData.length === 0) {
+                    examListDiv.innerHTML = `
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/>
+                            </svg>
+                            <p>暂无考试数据</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // 初始化界面
+                initializeSelectors();
+                renderExamList(examsData);
+                
+            } catch (error) {
+                console.error('加载失败:', error);
+                examListDiv.innerHTML = `
+                    <div class="error-message">
+                        <p>❌ 加载考试数据失败</p>
+                        <p>错误信息: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ==================== 初始化选择器 ====================
+        function initializeSelectors() {
+            // 初始化年份
+            const years = [...new Set(examsData.map(e => e.year))].sort().reverse();
+            yearSelect.innerHTML = '<option value="">全部年份</option>';
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = `${year} 年`;
+                yearSelect.appendChild(option);
+            });
+
+            // 初始化题型 - 从数据中自动提取
+            updateTypeSelector();
+            
+            // 初始化月份
+            updateMonths();
+        }
+
+        // ==================== 更新题型选择器 ====================
+        function updateTypeSelector() {
+            const year = yearSelect.value;
+            const month = monthSelect.value;
+            
+            let filtered = examsData;
+            if (year) filtered = filtered.filter(e => e.year === year);
+            if (month) filtered = filtered.filter(e => e.month === month);
+
+            // 从过滤后的数据中提取所有存在的题型
+            const types = [...new Set(filtered.map(e => e.type))].sort();
+            
+            typeSelect.innerHTML = '<option value="">全部题型</option>';
+            types.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = typeMap[type] || type;
+                typeSelect.appendChild(option);
+            });
+        }
+
+        // ==================== 更新月份 ====================
+        function updateMonths() {
+            const year = yearSelect.value;
+            monthSelect.innerHTML = '<option value="">全部月份</option>';
+            
+            let filtered = examsData;
+            if (year) {
+                filtered = filtered.filter(e => e.year === year);
+            }
+
+            const months = [...new Set(filtered.map(e => e.month))].sort();
+            months.forEach(month => {
+                const option = document.createElement('option');
+                option.value = month;
+                option.textContent = `${month} 月`;
+                monthSelect.appendChild(option);
+            });
+
+            // 更新题型选择器
+            updateTypeSelector();
+            updateGrades();
+        }
+
+        // ==================== 更新等级 ====================
+        function updateGrades() {
+            const year = yearSelect.value;
+            const month = monthSelect.value;
+            
+            gradeSelect.innerHTML = '<option value="">全部等级</option>';
+            
+            let filtered = examsData;
+            if (year) filtered = filtered.filter(e => e.year === year);
+            if (month) filtered = filtered.filter(e => e.month === month);
+
+            const grades = [...new Set(filtered.map(e => e.grade))].sort();
+            grades.forEach(grade => {
+                const option = document.createElement('option');
+                option.value = grade;
+                option.textContent = gradeMap[grade] || `${grade}级`;
+                gradeSelect.appendChild(option);
+            });
+
+            updateExamList();
+        }
+
+        // ==================== 更新考试列表 ====================
+        function updateExamList() {
+            const year = yearSelect.value;
+            const month = monthSelect.value;
+            const grade = gradeSelect.value;
+            const type = typeSelect.value;
+
+            let filtered = examsData;
+            
+            if (year) filtered = filtered.filter(e => e.year === year);
+            if (month) filtered = filtered.filter(e => e.month === month);
+            if (grade) filtered = filtered.filter(e => e.grade === grade);
+            if (type) filtered = filtered.filter(e => e.type === type);
+
+            // 更新面包屑
+            updateBreadcrumb(year, month, grade, type);
+            
+            // 更新标题
+            let title = '考试列表';
+            if (year) title = `${year}年`;
+            if (month) title += `${month}月`;
+            if (grade) title += ` ${gradeMap[grade] || grade}`;
+            if (type) title += ` ${typeMap[type] || type}`;
+            if (!year && !month && !grade && !type) title = '全部考试';
+            
+            folderTitle.textContent = title;
+            examCountSpan.textContent = `${filtered.length} 个文件`;
+
+            // 更新提醒筛选条
+            updateFilterNotice(year, month, grade, type);
+
+            // 渲染列表
+            renderExamList(filtered);
+            
+            // 控制按钮状态
+            enterBtn.disabled = !(year && month && grade && type && filtered.length === 1);
+        }
+
+        // ==================== 更新提醒筛选条 ====================
+        function updateFilterNotice(year, month, grade, type) {
+            if (!year && !month && !grade && !type) {
+                filterNotice.style.display = 'none';
+                return;
+            }
+
+            filterNotice.style.display = 'flex';
+            let tagsHtml = '';
+
+            if (year) {
+                tagsHtml += `
+                    <span class="filter-tag" onclick="filterByYear('${year}')">
+                        ${year}年
+                        <span class="remove" onclick="event.stopPropagation(); removeFilter('year')">×</span>
+                    </span>
+                `;
+            }
+            if (month) {
+                tagsHtml += `
+                    <span class="filter-tag" onclick="filterByMonth('${year}', '${month}')">
+                        ${month}月
+                        <span class="remove" onclick="event.stopPropagation(); removeFilter('month')">×</span>
+                    </span>
+                `;
+            }
+            if (grade) {
+                tagsHtml += `
+                    <span class="filter-tag">
+                        ${gradeMap[grade] || grade}
+                        <span class="remove" onclick="event.stopPropagation(); removeFilter('grade')">×</span>
+                    </span>
+                `;
+            }
+            if (type) {
+                tagsHtml += `
+                    <span class="filter-tag">
+                        ${typeMap[type] || type}
+                        <span class="remove" onclick="event.stopPropagation(); removeFilter('type')">×</span>
+                    </span>
+                `;
+            }
+
+            filterTags.innerHTML = tagsHtml;
+        }
+
+        // ==================== 移除单个筛选 ====================
+        window.removeFilter = function(filterType) {
+            switch(filterType) {
+                case 'year':
+                    yearSelect.value = '';
+                    updateMonths();
+                    updateExamList();
+                    break;
+                case 'month':
+                    monthSelect.value = '';
+                    updateTypeSelector();
+                    updateGrades();
+                    updateExamList();
+                    break;
+                case 'grade':
+                    gradeSelect.value = '';
+                    updateExamList();
+                    break;
+                case 'type':
+                    typeSelect.value = '';
+                    updateExamList();
+                    break;
+            }
+        };
+
+        // ==================== 更新面包屑 ====================
+        function updateBreadcrumb(year, month, grade, type) {
+            let html = '<span class="breadcrumb-item" onclick="resetFilters()">全部考试</span>';
+            
+            if (year) {
+                html += '<span class="breadcrumb-separator">›</span>';
+                html += `<span class="breadcrumb-item" onclick="filterByYear('${year}')">${year}年</span>`;
+            }
+            
+            if (month) {
+                html += '<span class="breadcrumb-separator">›</span>';
+                html += `<span class="breadcrumb-item" onclick="filterByMonth('${year}', '${month}')">${month}月</span>`;
+            }
+            
+            if (grade) {
+                html += '<span class="breadcrumb-separator">›</span>';
+                html += `<span class="breadcrumb-item">${gradeMap[grade] || grade}</span>`;
+            }
+            
+            if (type) {
+                html += '<span class="breadcrumb-separator">›</span>';
+                html += `<span class="breadcrumb-item active">${typeMap[type] || type}</span>`;
+            } else if (year || month || grade) {
+                html += '<span class="breadcrumb-item active">全部题型</span>';
+            }
+            
+            breadcrumbDiv.innerHTML = html;
+        }
+
+        // ==================== 过滤函数 ====================
+        window.resetFilters = function() {
+            yearSelect.value = '';
+            monthSelect.innerHTML = '<option value="">全部月份</option>';
+            gradeSelect.innerHTML = '<option value="">全部等级</option>';
+            typeSelect.innerHTML = '<option value="">全部题型</option>';
+            currentYear = '';
+            currentMonth = '';
+            currentGrade = '';
+            currentType = '';
+            
+            // 重新初始化所有选择器
+            updateMonths();
+            updateTypeSelector();
+            updateExamList();
+            filterNotice.style.display = 'none';
+        };
+
+        window.filterByYear = function(year) {
+            yearSelect.value = year;
+            updateMonths();
+            updateExamList();
+        };
+
+        window.filterByMonth = function(year, month) {
+            yearSelect.value = year;
+            updateMonths();
+            setTimeout(() => {
+                monthSelect.value = month;
+                updateTypeSelector();
+                updateGrades();
+                updateExamList();
+            }, 100);
+        };
+
+        // ==================== 渲染考试列表 ====================
+        function renderExamList(exams) {
+            if (exams.length === 0) {
+                examListDiv.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/>
+                        </svg>
+                        <p>暂无符合条件的考试</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            exams.forEach(exam => {
+                const filePath = `${exam.year}/${exam.month}/${exam.id}.html`;
+                const typeName = typeMap[exam.type] || '未知题型';
+                const typeClass = exam.type === 'pd' ? 'exam-subtype' : 'exam-type';
+                
+                html += `
+                    <div class="exam-card" onclick="window.location.href='${filePath}'">
+                        <div class="exam-card-header">
+                            <span class="${typeClass}">${typeName}</span>
+                            <span class="exam-duration">${exam.duration}分钟</span>
+                        </div>
+                        <h4>${exam.title}</h4>
+                        <div class="exam-desc">${exam.description}</div>
+                        <div class="exam-meta">
+                            <span>📅 ${exam.year}年${exam.month}月</span>
+                            <span>📄 ${exam.questions}题</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            examListDiv.innerHTML = html;
+        }
+
+        // ==================== 进入考试 ====================
+        function enterExam() {
+            const year = yearSelect.value;
+            const month = monthSelect.value;
+            const grade = gradeSelect.value;
+            const type = typeSelect.value;
+
+            if (!year || !month || !grade || !type) {
+                alert('请完整选择年份、月份、等级和题型');
+                return;
+            }
+
+            const exam = examsData.find(e => 
+                e.year === year && 
+                e.month === month && 
+                e.grade === grade &&
+                e.type === type
+            );
+
+            if (exam) {
+                const filePath = `${year}/${month}/${exam.id}.html`;
+                window.location.href = filePath;
+            } else {
+                alert('未找到对应的考试文件');
+            }
+        }
+
+        // ==================== 事件监听 ====================
+        yearSelect.addEventListener('change', function() {
+            currentYear = this.value;
+            updateMonths();
+            updateExamList();
+        });
+
+        monthSelect.addEventListener('change', function() {
+            currentMonth = this.value;
+            updateTypeSelector();
+            updateGrades();
+            updateExamList();
+        });
+
+        gradeSelect.addEventListener('change', function() {
+            currentGrade = this.value;
+            updateExamList();
+        });
+
+        typeSelect.addEventListener('change', function() {
+            currentType = this.value;
+            updateExamList();
+        });
+
+        enterBtn.addEventListener('click', enterExam);
+
+        // 触摸优化
+        document.addEventListener('touchstart', function() {}, { passive: true });
+
+        // 阻止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // ==================== 初始化加载 ====================
+        loadExamsData();
+
+        // 检查URL参数
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const year = urlParams.get('year');
+            const month = urlParams.get('month');
+            const grade = urlParams.get('grade');
+            const type = urlParams.get('type');
+
+            if (year) {
+                setTimeout(() => {
+                    yearSelect.value = year;
+                    updateMonths();
+                    
+                    if (month) {
+                        setTimeout(() => {
+                            monthSelect.value = month;
+                            updateTypeSelector();
+                            updateGrades();
+                            
+                            if (grade) {
+                                setTimeout(() => {
+                                    const grades = Array.from(gradeSelect.options).map(opt => opt.value);
+                                    if (grades.includes(grade)) {
+                                        gradeSelect.value = grade;
+                                        
+                                        if (type) {
+                                            setTimeout(() => {
+                                                const types = Array.from(typeSelect.options).map(opt => opt.value);
+                                                if (types.includes(type)) {
+                                                    typeSelect.value = type;
+                                                    updateExamList();
+                                                }
+                                            }, 100);
+                                        } else {
+                                            updateExamList();
+                                        }
+                                    }
+                                }, 100);
+                            }
+                        }, 100);
+                    }
+                }, 500);
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>202506 1 单选题</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet"/>
+  <!-- 数学公式支持 -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* 基础样式 - 暗色主题 */
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      padding: 15px;
+      background-color: #121212;
+      color: #e0e0e0;
+      line-height: 1.6;
+      margin: 0;
+      min-height: 100vh;
+    }
+    
+    h1, h2 {
+      color: #ffffff;
+      margin-top: 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #333;
+      word-wrap: break-word;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 25px;
+    }
+    
+    /* 题目区域 */
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      border-left: 4px solid #2a7fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .question p {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    
+    .question small {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    
+    /* 选项样式 */
+    label {
+      display: block;
+      padding: 14px 16px;
+      margin: 10px 0;
+      background-color: #252525;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      font-size: 1rem;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+    }
+    
+    label:active {
+      background-color: #2d2d2d;
+      transform: scale(0.98);
+    }
+    
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-right: 15px;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      accent-color: #2a7fff;
+    }
+    
+    /* 反馈信息 */
+    .correct {
+      color: #4caf50;
+      font-weight: bold;
+    }
+    
+    .wrong {
+      color: #f44336;
+      font-weight: bold;
+    }
+    
+    .feedback {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: #252525;
+      border-left: 4px solid #444;
+      font-size: 0.95rem;
+    }
+
+    /* 进度条样式 */
+    .progress-container {
+      width: 100%;
+      background-color: #2d2d2d;
+      border-radius: 25px;
+      margin: 25px 0;
+      height: 35px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    }
+    
+    .progress-bar {
+      height: 100%;
+      border-radius: 25px;
+      text-align: center;
+      line-height: 35px;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      width: 0%;
+      transition: width 1s ease-in-out;
+      background: linear-gradient(90deg, #2a7fff, #00bcd4);
+      min-width: 35px;
+    }
+
+    /* 倒计时 - 手机端优化 */
+    #timer {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #64b5f6;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      background-color: rgba(26, 26, 26, 0.95);
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      border: 2px solid #2a7fff;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      margin-bottom: 20px;
+      width: auto;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* 提交按钮样式 */
+    button {
+      margin: 30px auto;
+      padding: 18px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #2a7fff, #1a5fd8);
+      color: white;
+      cursor: pointer;
+      display: block;
+      width: 90%;
+      max-width: 300px;
+      transition: all 0.3s;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(42, 127, 255, 0.4);
+      letter-spacing: 1px;
+      touch-action: manipulation;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    button:active::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(40, 40);
+        opacity: 0;
+      }
+    }
+    
+    button:active {
+      transform: scale(0.98);
+      background: linear-gradient(135deg, #0d47a1, #08306b);
+    }
+
+    /* 代码块样式 */
+    pre[class*="language-"] {
+      background-color: #1a1a1a !important;
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin: 15px 0;
+      padding: 15px !important;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    code[class*="language-"] {
+      font-size: 0.85rem;
+      text-shadow: none !important;
+      color: #e0e0e0;
+    }
+
+    /* 滚动条样式 - 手机端优化 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 4px;
+    }
+
+    /* 选中文字样式 */
+    ::selection {
+      background-color: rgba(42, 127, 255, 0.3);
+      color: white;
+    }
+
+    /* 防止文字选择 */
+    .question label {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 平板设备适配 */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      body {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .question p {
+        font-size: 1.2rem;
+      }
+      
+      pre[class*="language-"] {
+        font-size: 0.9rem;
+      }
+      
+      button {
+        width: 70%;
+        max-width: 400px;
+      }
+      
+      #timer {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        left: auto;
+        transform: none;
+        width: auto;
+      }
+    }
+
+    /* 手机端特殊适配 */
+    @media (max-width: 767px) {
+      /* 小屏幕手机 */
+      @media (max-width: 360px) {
+        body {
+          padding: 10px;
+        }
+        
+        .question {
+          padding: 12px;
+        }
+        
+        label {
+          padding: 12px;
+          font-size: 0.95rem;
+          min-height: 50px;
+        }
+        
+        button {
+          width: 95%;
+          padding: 16px;
+          font-size: 1.1rem;
+        }
+        
+        h1 {
+          font-size: 1.3rem;
+        }
+      }
+      
+      /* 横屏模式 */
+      @media (max-height: 500px) and (orientation: landscape) {
+        body {
+          padding: 10px;
+        }
+        
+        .question {
+          margin-bottom: 15px;
+          padding: 12px;
+        }
+        
+        label {
+          padding: 10px 12px;
+          min-height: 45px;
+          font-size: 0.9rem;
+        }
+        
+        #timer {
+          top: 5px;
+          padding: 8px 12px;
+          font-size: 1rem;
+        }
+        
+        h1 {
+          font-size: 1.2rem;
+          margin-bottom: 15px;
+        }
+      }
+      
+      /* 防止输入法遮挡 */
+      .question:last-child {
+        margin-bottom: 100px;
+      }
+      
+      /* 触摸优化 */
+      label, button {
+        -webkit-touch-callout: none;
+      }
+      
+      /* 字体大小优化 */
+      html {
+        font-size: 16px;
+      }
+    }
+
+    /* 大屏幕适配 */
+    @media (min-width: 1200px) {
+      body {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 30px;
+      }
+      
+      .question {
+        padding: 20px;
+      }
+      
+      button {
+        max-width: 400px;
+      }
+    }
+
+    /* 深色模式增强 */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #0a0a0a;
+      }
+      
+      .question, .feedback {
+        background-color: #151515;
+      }
+    }
+
+    /* 无障碍访问优化 */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
+      
+      button::after {
+        display: none;
+      }
+    }
+
+    /* 数学公式适配 */
+    .MathJax {
+      color: #e0e0e0 !important;
+      font-size: 1.1em !important;
+    }
+    
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
+</head>
+<body>
+  <h1>1 单选题（每题 2 分，共 30 分）</h1>
+
+  <!-- 倒计时显示 -->
+  <div id="timer">剩余时间：15:00</div>
+
+  <!-- 题目区域 -->
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">提交答案</button>
+
+  <h2 id="result"></h2>
+  <div class="progress-container">
+    <div id="progress-bar" class="progress-bar">0%</div>
+  </div>
+
+  <!-- Prism 高亮库 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+
+  <script>
+    // ===========================
+    // 题目数据，支持代码 + 数学公式
+    // ===========================
+    const questions = [
+      {
+        text: "1 32 位 int 类型的存储范围是（ ）。",
+        options: [
+          { text: "A. -2147483647 ~ +2147483647", code: "" },
+          { text: "B. -2147483647 ~ +2147483648", code: "" },
+          { text: "C. -2147483648 ~ +2147483647", code: "" },
+          { text: "D. -2147483648 ~ +2147483648", code: "" }
+        ],
+        answer: [2],
+        rule: "all",
+        score: 2,
+        code: `` // 无代码
+      },
+      {
+        text: "2 计算表达式   (14<sub>8</sub>-1010<sub>2</sub>)*D<sub>16</sub> -1101<sub>2</sub>的结果，并选择答案的十进制值：（ ）。",
+        options: [
+          { text: "A. 13", code: "" },
+          { text: "B. 14", code: "" },
+          { text: "C. 15", code: "" },
+          { text: "D. 16", code: "" }
+        ],
+        answer: [0],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "3 某公司有 10 名员工，分为 3 个部门：A 部门有 4 名员工，B 部门有 3 名员工，C 部门有 3 名员工。现需要从这 10 名员工中选出 4 名组成一个工作组 ，且每个部门至少要有 1 人。问有多少种选择方式？（ ）",
+        options: [
+          { text: "A. 120", code: "" },
+          { text: "B. 126", code: "" },
+          { text: "C. 132", code: "" },
+          { text: "D. 238", code: ""}
+        ],
+        answer: [1],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "4 以下哪个序列对应数组 0 至 8 的 4 位二进制格雷码(Gray code)?",
+        options: [
+          { text: "A. 0000 0001 0011 0010 0110 0111 0101 1000", code: "" },
+          { text: "B. 0000 0001 0011 0010 0110 0111 0100 0101", code: "" },
+          { text: "C. 0000 0001 0011 0010 0100 0101 0111 0110", code: "" },
+          { text: "D. 0000 0001 0011 0010 0110 0111 0101 0100", code: ""}
+        ],
+        answer: [3],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "5 记 1KB 为 1024 字节(byte)，1MB 为 1024KB，那么 1MB 是多少二进制位(bit)？",
+        options: [
+          { text: "A. 1000000", code: "" },
+          { text: "B. 1048576", code: "" },
+          { text: "C. 8000000", code: "" },
+          { text: "D. 8388608", code: ""}
+        ],
+        answer: [3],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "6 以下哪个不是 C++中的基本数据类型？",
+        options: [
+          { text: "A. int", code: "" },
+          { text: "B. float", code: "" },
+          { text: "C. struct", code: "" },
+          { text: "D. char", code: ""}
+        ],
+        answer: [2],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "7 以下哪个不是 C++中的循环语句？",
+        options: [
+          { text: "A. for", code: "" },
+          { text: "B. while", code: "" },
+          { text: "C. do-while", code: "" },
+          { text: "D. repeat-until", code: ""}
+        ],
+        answer: [3],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "8 在 C/C++中，(char)('a'+13)与下面的哪一个值相等（ ）",
+        options: [
+          { text: "A. 'm'", code: "" },
+          { text: "B. 'n'", code: "" },
+          { text: "C. 'z'", code: "" },
+          { text: "D. '3'", code: ""}
+        ],
+        answer: [1],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "9 假设有序表中有 1000 个元素，则用二分法查找元素 x 最多需要比较（ ）次",
+        options: [
+          { text: "A. 25", code: "" },
+          { text: "B. 10", code: "" },
+          { text: "C. 7", code: "" },
+          { text: "D. 1", code: ""}
+        ],
+        answer: [1],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "10 下面哪一个不是操作系统名字（ ）",
+        options: [
+          { text: "A. Notepad", code: "" },
+          { text: "B. Linux", code: "" },
+          { text: "C. Windows", code: "" },
+          { text: "D. macOS", code: ""}
+        ],
+        answer: [0],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "11 在无向图中，所有顶点的度数之和等于（ ）",
+        options: [
+          { text: "A. 图的边数", code: "" },
+          { text: "B. 图的边数的两倍", code: "" },
+          { text: "C. 图的定点数", code: "" },
+          { text: "D. 图的定点数的两倍", code: ""}
+        ],
+        answer: [1],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "12 已知二叉树的前序遍历为[A,B,D,E,C,F,G],中序遍历为[D,B,E,A,F,C,G],求二叉树的后序遍历的结果是（ ）",
+        options: [
+          { text: "A. [D,E,B,F,G,C,A]", code: "" },
+          { text: "B. [D,E,B,F,G,A,C]", code: "" },
+          { text: "C. [D,B,E,F,G,C,A]", code: "" },
+          { text: "D. [D,E,B,F,G,A,C]", code: ""}
+        ],
+        answer: [0],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "13 给定一个空栈，支持入栈和出栈操作。若入栈操作的元素依次是 1 2 3 4 5 6,其中 1 最先入栈，6 最后入栈，下面哪种出栈顺序是不可能的（ ）",
+        options: [
+          { text: "A. 6 5 4 3 2 1", code: "" },
+          { text: "B. 1 6 5 4 3 2", code: "" },
+          { text: "C. 2 4 6 5 3 1", code: "" },
+          { text: "D. 1 3 5 2 4 6", code: ""}
+        ],
+        answer: [3],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "14. 有 5 个男生和 3 个女生站成一排，规定 3 个女生必须相邻，问有多少种不同的排列方式？",
+        options: [
+          { text: "A. 4320 种", code: "" },
+          { text: "B. 5040 种", code: "" },
+          { text: "C. 3600 种", code: "" },
+          { text: "D. 2880 种", code: ""}
+        ],
+        answer: [0],
+        rule: "all",
+        score: 2,
+        code: ``
+      },
+      {
+        text: "15. 编译器的主要作用是什么（ ）？",
+        options: [
+          { text: "A. 直接执行源代码", code: "" },
+          { text: "B. 将源代码转换为机器代码", code: "" },
+          { text: "C. 进行代码调试", code: "" },
+          { text: "D. 管理程序运行时的内存", code: ""}
+        ],
+        answer: [1],
+        rule: "all",
+        score: 2,
+        code: ``
+      }
+    ];
+
+    // 渲染题目
+    const quizDiv = document.getElementById("quiz");
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      const isMulti = q.answer.length > 1 || q.rule === "any";
+
+      // 构造 HTML
+      div.innerHTML = `
+        <p id="q${i}-text">${q.text} <small>（${q.score}分）</small></p>
+        ${q.code ? `<pre><code class="language-cpp">${q.code}</code></pre>` : ""}
+        ${q.options.map((opt, j) => `
+          <label>
+            <input type="${isMulti ? "checkbox" : "radio"}" name="q${i}" value="${j}">
+            ${opt.text}
+            ${opt.code ? `<pre><code class="language-cpp">${opt.code}</code></pre>` : ""}
+          </label>
+        `).join("")}
+        <p class="feedback" id="feedback${i}"></p>
+      `;
+      quizDiv.appendChild(div);
+    });
+
+    // 数学公式渲染
+    if (window.MathJax) {
+      MathJax.typeset();
+    }
+
+    // 手机端触摸优化
+    document.addEventListener('touchstart', function(e) {
+      if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') {
+        e.target.classList.add('active');
+      }
+    }, { passive: true });
+    
+    document.addEventListener('touchend', function(e) {
+      document.querySelectorAll('label.active').forEach(el => {
+        el.classList.remove('active');
+      });
+    }, { passive: true });
+
+    // 提交判分
+    function submitQuiz(auto=false) {
+      let totalScore = 0;
+      let maxScore = questions.reduce((sum, q) => sum + q.score, 0);
+
+      questions.forEach((q, i) => {
+        const selected = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
+        let isCorrect = false;
+
+        if (q.rule === "all") {
+          isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
+        } else if (q.rule === "any") {
+          const hasCorrect = selected.some(v => q.answer.includes(v));
+          const hasWrong = selected.some(v => !q.answer.includes(v));
+          isCorrect = hasCorrect && !hasWrong;
+        }
+
+        if (isCorrect) totalScore += q.score;
+        const correctText = q.answer.map(idx => q.options[idx].text).join("，");
+
+        document.getElementById(`feedback${i}`).innerHTML = isCorrect
+          ? `<span class='correct'>✔ 正确 (${q.score}分)</span> 正确答案：${correctText}`
+          : `<span class='wrong'>✘ 错误 (0分)</span> 正确答案：${correctText}`;
+      });
+
+      const percent = Math.round((totalScore / maxScore) * 100);
+      const bar = document.getElementById("progress-bar");
+      bar.style.width = percent + "%";
+      bar.innerText = percent + "%";
+      
+      // 根据分数设置进度条颜色
+      if (percent < 50) {
+        bar.style.background = "linear-gradient(90deg, #f44336, #d32f2f)";
+      } else if (percent < 80) {
+        bar.style.background = "linear-gradient(90deg, #ff9800, #f57c00)";
+      } else {
+        bar.style.background = "linear-gradient(90deg, #4caf50, #2e7d32)";
+      }
+
+      document.getElementById("result").innerText = 
+        (auto ? "⏰ 时间到，已自动提交！ " : "") + `总分：${totalScore}/${maxScore}`;
+
+      clearInterval(timerInterval);
+      
+      // 手机端滚动到结果
+      if ('scrollBehavior' in document.documentElement.style) {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        });
+      } else {
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    }
+
+    // 倒计时逻辑
+    let timeLeft = 900; // 15 分钟
+    const timerDiv = document.getElementById("timer");
+    
+    function formatTime(s) {
+      const m = String(Math.floor(s / 60)).padStart(2, "0");
+      const sec = String(s % 60).padStart(2, "0");
+      return `${m}:${sec}`;
+    }
+
+    const timerInterval = setInterval(() => {
+      timeLeft--;
+      timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+      
+      // 根据剩余时间改变颜色
+      if (timeLeft <= 60) {
+        timerDiv.style.color = "#f44336";
+        timerDiv.style.borderColor = "#f44336";
+        timerDiv.style.background = "rgba(244, 67, 54, 0.1)";
+      } else if (timeLeft <= 300) {
+        timerDiv.style.color = "#ff9800";
+        timerDiv.style.borderColor = "#ff9800";
+        timerDiv.style.background = "rgba(255, 152, 0, 0.1)";
+      }
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitQuiz(true);
+      }
+    }, 1000);
+
+    timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+    
+    // 手机端防止缩放
+    document.addEventListener('touchmove', function(e) {
+      if(e.scale !== 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    
+    // 阻止双击缩放
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+  </script>
+</body>
+</html>

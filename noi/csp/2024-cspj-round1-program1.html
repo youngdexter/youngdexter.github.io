@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CSP-J 2024 入门级 第一轮（初赛） 阅读程序（1）</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet"/>
+  <style>
+    /* 基础样式 - 暗色主题 */
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      padding: 15px;
+      background-color: #121212;
+      color: #e0e0e0;
+      line-height: 1.6;
+      margin: 0;
+      min-height: 100vh;
+    }
+    
+    h1, h2 {
+      color: #ffffff;
+      margin-top: 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #333;
+      word-wrap: break-word;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 25px;
+    }
+    
+    /* 程序描述区 */
+    .description {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      font-size: 0.9rem;
+    }
+    
+    /* 题目区域 */
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      border-left: 4px solid #2a7fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .question p {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    
+    /* 选项样式 */
+    label {
+      display: block;
+      padding: 14px 16px;
+      margin: 10px 0;
+      background-color: #252525;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      font-size: 1rem;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+    }
+    
+    label:active {
+      background-color: #2d2d2d;
+      transform: scale(0.98);
+    }
+    
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-right: 15px;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      accent-color: #2a7fff;
+    }
+    
+    /* 反馈信息 */
+    .correct {
+      color: #4caf50;
+      font-weight: bold;
+    }
+    
+    .wrong {
+      color: #f44336;
+      font-weight: bold;
+    }
+    
+    .feedback {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: #252525;
+      border-left: 4px solid #444;
+      font-size: 0.95rem;
+    }
+
+    /* 进度条样式 */
+    .progress-container {
+      width: 100%;
+      background-color: #2d2d2d;
+      border-radius: 25px;
+      margin: 25px 0;
+      height: 35px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    }
+    
+    .progress-bar {
+      height: 100%;
+      border-radius: 25px;
+      text-align: center;
+      line-height: 35px;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      width: 0%;
+      transition: width 1s ease-in-out;
+      background: linear-gradient(90deg, #2a7fff, #00bcd4);
+      min-width: 35px;
+    }
+
+    /* 倒计时 - 手机端优化 */
+    #timer {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #64b5f6;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      background-color: rgba(26, 26, 26, 0.95);
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      border: 2px solid #2a7fff;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      margin-bottom: 20px;
+      width: auto;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* 提交按钮样式 */
+    button {
+      margin: 30px auto;
+      padding: 18px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #2a7fff, #1a5fd8);
+      color: white;
+      cursor: pointer;
+      display: block;
+      width: 90%;
+      max-width: 300px;
+      transition: all 0.3s;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(42, 127, 255, 0.4);
+      letter-spacing: 1px;
+      touch-action: manipulation;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    button:active::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(40, 40);
+        opacity: 0;
+      }
+    }
+    
+    button:active {
+      transform: scale(0.98);
+      background: linear-gradient(135deg, #0d47a1, #08306b);
+    }
+
+    /* 代码块样式 */
+    pre[class*="language-"] {
+      background-color: #1a1a1a !important;
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin: 15px 0;
+      padding: 15px !important;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    code[class*="language-"] {
+      font-size: 0.85rem;
+      text-shadow: none !important;
+      color: #e0e0e0;
+    }
+
+    /* 滚动条样式 - 手机端优化 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 4px;
+    }
+
+    /* 选中文字样式 */
+    ::selection {
+      background-color: rgba(42, 127, 255, 0.3);
+      color: white;
+    }
+
+    /* 防止文字选择 */
+    .question label {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 平板设备适配 */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      body {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .description {
+        font-size: 1rem;
+        padding: 15px;
+      }
+      
+      pre[class*="language-"] {
+        font-size: 0.9rem;
+      }
+      
+      button {
+        width: 70%;
+        max-width: 400px;
+      }
+      
+      #timer {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        left: auto;
+        transform: none;
+        width: auto;
+      }
+    }
+
+    /* 手机端特殊适配 */
+    @media (max-width: 767px) {
+      /* 小屏幕手机 */
+      @media (max-width: 360px) {
+        body {
+          padding: 10px;
+        }
+        
+        .question {
+          padding: 12px;
+        }
+        
+        label {
+          padding: 12px;
+          font-size: 0.95rem;
+        }
+        
+        button {
+          width: 95%;
+          padding: 16px;
+          font-size: 1.1rem;
+        }
+      }
+      
+      /* 横屏模式 */
+      @media (max-height: 500px) and (orientation: landscape) {
+        body {
+          padding: 10px;
+        }
+        
+        .description {
+          max-height: 150px;
+          overflow-y: auto;
+        }
+        
+        .question {
+          margin-bottom: 15px;
+          padding: 12px;
+        }
+        
+        label {
+          padding: 10px 12px;
+          min-height: 45px;
+          font-size: 0.9rem;
+        }
+        
+        #timer {
+          top: 5px;
+          padding: 8px 12px;
+          font-size: 1rem;
+        }
+      }
+      
+      /* 防止输入法遮挡 */
+      .question:last-child {
+        margin-bottom: 100px;
+      }
+      
+      /* 触摸优化 */
+      label, button {
+        -webkit-touch-callout: none;
+      }
+      
+      /* 字体大小优化 */
+      html {
+        font-size: 16px;
+      }
+    }
+
+    /* 大屏幕适配 */
+    @media (min-width: 1200px) {
+      body {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 30px;
+      }
+      
+      .description {
+        padding: 20px;
+        font-size: 1rem;
+      }
+      
+      .question {
+        padding: 20px;
+      }
+      
+      button {
+        max-width: 400px;
+      }
+    }
+
+    /* 深色模式增强 */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #0a0a0a;
+      }
+      
+      .question, .description, .feedback {
+        background-color: #151515;
+      }
+    }
+
+    /* 无障碍访问优化 */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
+      
+      button::after {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>CSP-J 2024 入门级 第一轮（初赛） 阅读程序（1）</h1>
+
+  <!-- 倒计时显示 -->
+  <div id="timer">剩余时间：15:00</div>
+
+  <!-- 程序描述区 -->
+  <div class="description">
+<pre><code class="language-javascript">1 #include < iostream >
+2 using namespace std;
+3
+4 bool isPrime(int n) {
+5 		if (n <= 1) {
+6 			return false;
+7 		}
+8 		for (int i = 2; i * i <= n; i++) {
+9 			if (n % i == 0) {
+10 				return false;
+11 			}
+12 		}
+13 		return true;
+14 }
+15
+16 int countPrimes(int n) {
+17 		int count = 0;
+18 		for (int i = 2; i <= n; i++) {
+19 			if (isPrime(i)) {
+20 				count++;
+21 			}
+22 		}
+23 		return count;
+24 }
+25
+26 int sumPrimes(int n) {
+27 		int sum = 0;
+28 		for (int i = 2; i <= n; i++) {
+29 			if (isPrime(i)) {
+30 				sum += i;
+31 			}
+32 		}
+33 		return sum;
+34 }
+35
+36 int main() {
+37 		int x;
+38 		cin >> x;
+39 		cout << countPrimes(x) << " " << sumPrimes(x) << endl;
+40 		return 0;
+41 }
+</code></pre>
+  </div>
+
+  <!-- 题目区域 -->
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">提交答案</button>
+
+  <h2 id="result"></h2>
+  <div class="progress-container">
+    <div id="progress-bar" class="progress-bar">0%</div>
+  </div>
+
+  <!-- Prism 高亮库 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+
+  <script>
+    // 题目数据
+    const questions = [
+       {
+        text: "1. 当输入为“10”时，程序的第一个输出为“4”，第二个输出为“17”。",
+        options: ["A. T", "B. F"],
+        answer: [0],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "2. 若将 isPrime(i)函数种的条件改为 i<=n/2,输入“20”时，countPrimes(20)的输出将变为“6”。",
+        options: ["A. T", "B. F"],
+        answer: [1],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "3. sumPrimes 函数计算的是从 2 到 n 之间的所有素数之和。",
+        options:["A. T", "B. F"],
+        answer: [0],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "4. 当输入为“50”时，sumPrimes(50)的输出为（ ）",
+        options: ["A. 1060", "B. 328", "C. 381", "D. 275"],
+        answer:[1],
+        rule: "any",
+        score: 1
+      },
+      {
+        text: "5. 如果将 for(int i=2;i*i<=n;i++)改为 for(int i=2;i<=n;i++),输入“10”时，程序的输出（ ）",
+        options: ["A. 将不能正确计算 10 以内素数个数及其和", "B. 仍然输出4和17", "C. 输出3和 10", "D. 输出结果不变，但运行时间更短"],
+        answer: [0],
+        rule: "any",
+        score: 1
+      }
+    ];
+
+    // 渲染题目
+    const quizDiv = document.getElementById("quiz");
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+
+      const isMulti = false;
+
+      div.innerHTML = `<p id="q${i}-text">${q.text} <small>（${q.score}分）</small></p>` 
+        + q.options.map((opt, j) =>
+          `<label><input type="${isMulti ? "checkbox" : "radio"}" name="q${i}" value="${j}"> ${opt}</label><br>`
+        ).join("") 
+        + `<p class="feedback" id="feedback${i}"></p>`;
+      quizDiv.appendChild(div);
+    });
+
+    // 手机端触摸优化
+    document.addEventListener('touchstart', function(e) {
+      if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') {
+        e.target.classList.add('active');
+      }
+    }, { passive: true });
+    
+    document.addEventListener('touchend', function(e) {
+      document.querySelectorAll('label.active').forEach(el => {
+        el.classList.remove('active');
+      });
+    }, { passive: true });
+
+    // 提交判分
+    function submitQuiz(auto=false) {
+      let totalScore = 0;
+      let maxScore = questions.reduce((sum, q) => sum + q.score, 0);
+
+      questions.forEach((q, i) => {
+        const selected = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
+        let isCorrect = false;
+
+        if (q.rule === "all") {
+          isCorrect = selected.length === q.answer.length &&
+                      selected.every(val => q.answer.includes(val));
+        } else if (q.rule === "any") {
+          const hasCorrect = selected.some(val => q.answer.includes(val));
+          const hasWrong = selected.some(val => !q.answer.includes(val));
+          isCorrect = hasCorrect && !hasWrong;
+        }
+
+        if (isCorrect) totalScore += q.score;
+
+        const correctText = q.answer.map(idx => q.options[idx]).join("，");
+        document.getElementById(`feedback${i}`).innerHTML = isCorrect
+          ? `<span class="correct">✔ 回答正确，得 ${q.score} 分</span>（正确答案：${correctText}）`
+          : `<span class="wrong">✘ 回答错误，得 0 分</span>（正确答案：${correctText}）`;
+      });
+
+      document.getElementById("result").innerText =
+        (auto ? "⏰ 时间到，已自动提交！ " : "") +
+        `最终得分：${totalScore} / ${maxScore}`;
+
+      const percent = Math.round((totalScore / maxScore) * 100);
+      const progressBar = document.getElementById("progress-bar");
+      progressBar.style.width = percent + "%";
+      progressBar.innerText = percent + "%";
+
+      // 根据分数设置进度条颜色
+      if (percent < 50) {
+        progressBar.style.background = "linear-gradient(90deg, #f44336, #d32f2f)";
+      } else if (percent < 80) {
+        progressBar.style.background = "linear-gradient(90deg, #ff9800, #f57c00)";
+      } else {
+        progressBar.style.background = "linear-gradient(90deg, #4caf50, #2e7d32)";
+      }
+
+      // 停止计时
+      clearInterval(timerInterval);
+      
+      // 手机端滚动到结果
+      if ('scrollBehavior' in document.documentElement.style) {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        });
+      } else {
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    }
+
+    // 倒计时逻辑
+    let timeLeft = 900; // 秒
+    const timerDiv = document.getElementById("timer");
+
+    function formatTime(seconds) {
+      const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    const timerInterval = setInterval(() => {
+      timeLeft--;
+      timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+      
+      // 根据剩余时间改变颜色
+      if (timeLeft <= 60) {
+        timerDiv.style.color = "#f44336";
+        timerDiv.style.borderColor = "#f44336";
+        timerDiv.style.background = "rgba(244, 67, 54, 0.1)";
+      } else if (timeLeft <= 300) {
+        timerDiv.style.color = "#ff9800";
+        timerDiv.style.borderColor = "#ff9800";
+        timerDiv.style.background = "rgba(255, 152, 0, 0.1)";
+      }
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitQuiz(true); // 自动提交
+      }
+    }, 1000);
+
+    // 初始化显示
+    timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+    
+    // 手机端防止缩放
+    document.addEventListener('touchmove', function(e) {
+      if(e.scale !== 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  </script>
+</body>
+</html>

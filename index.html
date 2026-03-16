@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOI 信息学奥林匹克</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>信息学奥林匹克 - 考试系统</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         /* 全局样式 */
@@ -15,26 +14,35 @@
         }
 
         body {
-            font-family: 'Microsoft YaHei', sans-serif;
-            line-height: 1.6;
-            background-color: #f0f2f5;
-            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.4;
+            background-color: #0a0f1a;
+            color: #e0e0e0;
             overflow-x: hidden;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* 轮播容器 */
+        /* 轮播容器 - 全屏覆盖 */
         .slideshow-container {
             position: relative;
             width: 100%;
-            height: 100vh;
+            height: 100dvh;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* 轮播背景 - 固定定位 */
         .slideshow {
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
+            z-index: -2;
             --before-bg: url('img/background1.jpg');
         }
 
@@ -48,7 +56,6 @@
             background-repeat: no-repeat;
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
-            z-index: 0;
         }
 
         .slideshow::before {
@@ -63,18 +70,19 @@
         .slideshow.show-after::before { opacity: 0; }
         .slideshow.show-after::after { opacity: 1; }
 
-        /* 遮罩层 */
+        /* 遮罩层 - 增强可读性 */
         .mask {
-            position: absolute;
+            position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+            z-index: -1;
         }
 
-        /* 主要内容区域 */
+        /* 主要内容容器 - 使用flex布局确保内容垂直居中 */
         .main-content {
-            position: absolute;
-            inset: 0;
+            position: relative;
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -82,158 +90,445 @@
             text-align: center;
             color: #fff;
             z-index: 2;
-            padding: 20px;
+            padding: 10px 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100dvh;
+            overflow-y: auto;
         }
 
-        /* 标题样式 */
-        .main-title {
-            font-size: 4em;
-            font-weight: 700;
+        /* 隐藏滚动条但保留功能 */
+        .main-content::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+
+        /* 内容包装器 - 用于精确控制垂直居中 */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            margin: auto 0;
+        }
+
+        /* 标题区域 */
+        .title-section {
             margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 0.2rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
             animation: fadeInUp 1s ease-out;
+            /* 移除渐变色，保持纯白 */
+            color: #ffffff;
+            -webkit-text-fill-color: #ffffff; /* 覆盖原有渐变 */
+            background: none; /* 确保无背景渐变干扰 */
+            text-fill-color: #ffffff; /* 标准属性兼容 */
         }
 
         .subtitle {
-            font-size: 1.8em;
+            font-size: clamp(1rem, 3vw, 1.4rem);
             font-weight: 300;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
             animation: fadeInUp 1.5s ease-out;
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        /* 导航链接样式 */
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 30px;
+        /* 卡片网格布局 */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 1000px;
+            margin: 15px auto;
             animation: fadeInUp 2s ease-out;
         }
 
-        .nav-link {
-            padding: 18px 40px;
-            font-size: 1.2em;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 50px;
+        .nav-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 18px 10px;
             text-decoration: none;
-            text-align: center;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            color: white;
+            transition: all 0.3s ease;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            min-width: 200px;
-            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .nav-link:hover {
-            transform: translateY(-5px);
+        .nav-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
 
-        .nav-link i {
-            font-size: 1.3em;
+        .nav-card i {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-card span {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .nav-card small {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            text-align: center;
+            display: none;
         }
 
         /* 快速访问区域 */
         .quick-access {
-            position: absolute;
-            bottom: 40px;
-            left: 0;
-            right: 0;
-            z-index: 3;
-            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 15px auto;
             animation: fadeIn 2.5s ease-out;
         }
 
         .quick-links {
-            display: inline-flex;
-            gap: 25px;
-            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
-            padding: 20px 40px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .quick-link {
             color: white;
             text-decoration: none;
-            font-size: 1.1em;
+            font-size: 0.85rem;
             font-weight: 500;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 6px 12px;
+            border-radius: 30px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid transparent;
         }
 
         .quick-link:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
-        /* 页脚 */
+        .quick-link i {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* 页脚 - 固定在底部 */
         .footer {
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            padding: 5px 0 10px;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+            line-height: 1.2;
             position: absolute;
-            bottom: 20px;
+            bottom: 0;
             left: 0;
             right: 0;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9em;
-            z-index: 3;
         }
 
-        /* 响应式设计 */
-        @media (max-width: 768px) {
+        .footer p {
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .footer .copyright-line {
+            margin-bottom: 2px;
+        }
+
+        .footer .links-line {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            margin: 0 4px;
+            transition: opacity 0.2s;
+        }
+
+        .footer a:hover {
+            color: white;
+            text-decoration: underline;
+            opacity: 1;
+        }
+
+        /* 响应式设计 - 电脑端 */
+        @media (min-width: 1024px) {
+            .nav-grid {
+                grid-template-columns: repeat(4, 1fr);
+                margin: 20px auto;
+            }
+            
+            .quick-access {
+                margin: 20px auto;
+            }
+        }
+
+        /* 平板端 */
+        @media (max-width: 1023px) and (min-width: 768px) {
             .main-title {
-                font-size: 2.5em;
+                font-size: 2.8rem;
             }
             
             .subtitle {
-                font-size: 1.3em;
+                font-size: 1.3rem;
             }
             
-            .nav-links {
-                flex-direction: column;
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
-                width: 90%;
-            }
-            
-            .nav-link {
-                padding: 15px 30px;
-                font-size: 1em;
-                min-width: auto;
+                max-width: 600px;
+                margin: 20px auto;
             }
             
             .quick-links {
-                flex-wrap: wrap;
-                padding: 15px 20px;
-                gap: 15px;
+                border-radius: 40px;
+                padding: 12px 18px;
             }
             
             .quick-link {
-                font-size: 0.9em;
-                padding: 8px 15px;
+                font-size: 0.9rem;
+                padding: 6px 14px;
             }
         }
 
-        /* 动画 */
+        /* 手机端 */
+        @media (max-width: 767px) {
+            body, .slideshow-container, .main-content {
+                height: -webkit-fill-available;
+                height: 100dvh;
+            }
+            
+            .main-content {
+                padding: 0 12px;
+                justify-content: center;
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            
+            .content-wrapper {
+                margin: auto 0;
+                padding: 10px 0;
+            }
+            
+            .title-section {
+                margin-bottom: 10px;
+            }
+            
+            .main-title {
+                font-size: 1.8rem;
+                margin-bottom: 0;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 5px;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                max-width: 280px;
+                margin: 8px auto;
+            }
+            
+            .nav-card {
+                padding: 8px 12px;
+                flex-direction: row;
+                text-align: left;
+                gap: 8px;
+            }
+            
+            .nav-card i {
+                font-size: 1.3rem;
+                min-width: 30px;
+            }
+            
+            .nav-card div {
+                flex: 1;
+            }
+            
+            .nav-card span {
+                font-size: 0.85rem;
+                display: block;
+            }
+            
+            .nav-card small {
+                display: block;
+                font-size: 0.6rem;
+                margin-top: 1px;
+                opacity: 0.7;
+            }
+            
+            .quick-access {
+                margin: 8px auto;
+            }
+            
+            .quick-links {
+                border-radius: 30px;
+                padding: 6px 8px;
+                gap: 4px;
+            }
+            
+            .quick-link {
+                padding: 4px 6px;
+                font-size: 0.7rem;
+            }
+            
+            .quick-link i {
+                font-size: 0.75rem;
+            }
+            
+            .footer {
+                padding: 2px 0 8px;
+                font-size: 0.65rem;
+            }
+            
+            .footer .links-line {
+                font-size: 0.6rem;
+            }
+        }
+
+        /* 针对 iPhone 特定优化 */
+        @supports (-webkit-touch-callout: none) {
+            body, .slideshow-container, .main-content {
+                height: -webkit-fill-available;
+            }
+        }
+
+        /* 小屏手机优化 */
+        @media (max-width: 374px) {
+            .main-title {
+                font-size: 1.6rem;
+            }
+            
+            .subtitle {
+                font-size: 0.85rem;
+            }
+            
+            .nav-grid {
+                max-width: 260px;
+            }
+            
+            .nav-card span {
+                font-size: 0.8rem;
+            }
+            
+            .nav-card small {
+                font-size: 0.55rem;
+            }
+            
+            .quick-links {
+                flex-direction: column;
+                align-items: center;
+                border-radius: 20px;
+                padding: 6px;
+            }
+            
+            .quick-link {
+                width: 100%;
+                justify-content: center;
+                font-size: 0.65rem;
+                padding: 3px 5px;
+            }
+        }
+
+        /* 横屏手机优化 */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .main-content {
+                padding: 5px 15px;
+            }
+            
+            .title-section {
+                margin-bottom: 5px;
+            }
+            
+            .main-title {
+                font-size: 1.6rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 3px;
+            }
+            
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 450px;
+                gap: 6px;
+                margin: 5px auto;
+            }
+            
+            .nav-card {
+                padding: 6px 10px;
+            }
+            
+            .nav-card i {
+                font-size: 1.2rem;
+            }
+            
+            .nav-card span {
+                font-size: 0.8rem;
+            }
+            
+            .nav-card small {
+                font-size: 0.55rem;
+            }
+            
+            .quick-access {
+                margin: 5px auto;
+            }
+            
+            .quick-links {
+                padding: 5px 10px;
+            }
+            
+            .quick-link {
+                padding: 3px 8px;
+                font-size: 0.7rem;
+            }
+            
+            .footer {
+                padding: 3px 0 6px;
+            }
+        }
+
+        /* 动画定义 */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(15px);
             }
             to {
                 opacity: 1;
@@ -249,6 +544,33 @@
                 opacity: 1;
             }
         }
+
+        /* 触摸优化 */
+        .nav-card, .quick-link {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            user-select: none;
+        }
+
+        /* 深色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            .mask {
+                background: rgba(0, 0, 0, 0.7);
+            }
+        }
+
+        /* 减少动画（无障碍） */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            
+            .slideshow::before,
+            .slideshow::after {
+                transition: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -260,52 +582,78 @@
         
         <!-- 主要内容 -->
         <div class="main-content">
-            <h1 class="main-title">信息学奥林匹克</h1>
-            <p class="subtitle">National Olympiad in Informatics</p>
-            
-            <!-- 主要导航链接 -->
-            <div class="nav-links">
-                <a href="/noi" target="_blank" class="nav-link">
-                    <i class="fas fa-file-alt"></i>NOI 在线练习
-                </a>
-                <a href="https://isoft.top" target="_blank" class="nav-link">
-                    <i class="fas fa-laptop-code"></i>GESP 程序设计
-                </a>
-                <a href="/gesp" target="_blank" class="nav-link">
-                    <i class="fas fa-book"></i>GESP 单选、判断
-                </a>
-                <a href="https://www.noi.cn/" target="_blank" class="nav-link">
-                    <i class="fas fa-trophy"></i>竞赛信息
-                </a>
+            <!-- 内容包装器 - 用于垂直居中 -->
+            <div class="content-wrapper">
+                <!-- 标题区域 -->
+                <div class="title-section">
+                    <!-- 已按照要求保持纯白色，移除了渐变效果 -->
+                    <h1 class="main-title">信息学奥林匹克</h1>
+                    <p class="subtitle">National Olympiad in Informatics</p>
+                </div>
+                
+                <!-- 卡片网格导航 -->
+                <div class="nav-grid">
+                    <a href="/noi" target="_blank" class="nav-card">
+                        <i class="fas fa-file-alt"></i>
+                        <div>
+                            <span>NOI 在线练习</span>
+                            <small>全国青少年信息学奥林匹克</small>
+                        </div>
+                    </a>
+                    <a href="https://isoft.top" target="_blank" class="nav-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <div>
+                            <span>GESP 程序设计</span>
+                            <small>图形化编程能力认证</small>
+                        </div>
+                    </a>
+                    <a href="/gesp" target="_blank" class="nav-card">
+                        <i class="fas fa-book"></i>
+                        <div>
+                            <span>GESP 单选判断</span>
+                            <small>选择题、判断题练习</small>
+                        </div>
+                    </a>
+                    <a href="https://www.noi.cn/" target="_blank" class="nav-card">
+                        <i class="fas fa-trophy"></i>
+                        <div>
+                            <span>竞赛信息</span>
+                            <small>最新赛事通知、成绩查询</small>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- 快速访问链接 -->
+                <div class="quick-access">
+                    <div class="quick-links">
+                        <a href="/study" target="_blank" class="quick-link">
+                            <i class="fas fa-play-circle"></i>学习资源
+                        </a>
+                        <a href="/csp" target="_blank" class="quick-link">
+                            <i class="fas fa-history"></i>历年真题
+                        </a>
+                        <a href="/code" target="_blank" class="quick-link">
+                            <i class="fas fa-cog fa-spin"></i>程序代码
+                        </a>
+                        <a href="/about" target="_blank" class="quick-link">
+                            <i class="fas fa-info-circle"></i>关于我们
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <!-- 快速访问链接 -->
-        <div class="quick-access">
-            <div class="quick-links">
-                <a href="/study" target="_blank" class="quick-link">
-                    <i class="fas fa-play-circle"></i>学习资源
-                </a>
-                <a href="/csp" target="_blank" class="quick-link">
-                    <i class="fas fa-history"></i>历年真题
-                </a>
-                <a href="/code" target="_blank" class="quick-link">
-                    <i class="fas fa-cog fa-spin"></i>程序代码
-                </a>
-                <a href="/about" target="_blank" class="quick-link">
-                    <i class="fas fa-info-circle"></i>关于我们
-                </a>
-            </div>
-        </div>
-        
-        <!-- 页脚 -->
+        <!-- 页脚 - 固定在底部 -->
         <div class="footer">
-            <p>Copyright &copy; 2025 AoSai All Rights Reserved</p>
+            <p class="copyright-line">Copyright &copy; 2025 AoSai All Rights Reserved</p>
+            <p class="links-line">
+                <a href="/privacy">隐私政策</a> · <a href="/terms">使用条款</a> · <a href="/contact">联系我们</a>
+            </p>
         </div>
     </div>
 
     <script>
-        // 轮播图片配置
+        // 轮播图片配置 - 使用本地图片
         const slideshow = document.querySelector(".slideshow");
         const images = [
             "img/background1.jpg",
@@ -320,6 +668,9 @@
         images.forEach(src => {
             const img = new Image();
             img.src = src;
+            img.onerror = function() {
+                console.warn('图片加载失败: ' + src);
+            };
         });
 
         // 轮播切换
@@ -335,7 +686,7 @@
             }
             
             showingBefore = !showingBefore;
-        }, 5000);
+        }, 6000);
 
         // 平滑滚动到锚点
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -349,9 +700,31 @@
                 }
             });
         });
+
+        // 横屏检测
+        window.addEventListener('orientationchange', function() {});
+        
+        // 触摸优化
+        document.addEventListener('touchstart', function() {}, { passive: true });
+
+        // 图片加载失败备用
+        function setDefaultBackground() {
+            document.querySelector('.slideshow').style.backgroundColor = '#1a1a2e';
+        }
+
+        const firstImg = new Image();
+        firstImg.src = images[0];
+        firstImg.onerror = setDefaultBackground;
+        
+        // iOS Safari 高度修正
+        function setVH() {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+        setVH();
     </script>
 </body>
-
 </html>
-
-

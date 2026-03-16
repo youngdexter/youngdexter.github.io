@@ -85,12 +85,12 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* 改为space-between使内容分布更均匀 */
+            justify-content: space-between;
             align-items: center;
             text-align: center;
             color: #fff;
             z-index: 2;
-            padding: 20px 20px 80px; /* 增加底部内边距，为固定页脚留空间 */
+            padding: 20px 20px 80px;
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
@@ -110,7 +110,7 @@
             flex-direction: column;
             justify-content: center;
             width: 100%;
-            flex: 1; /* 让内容包装器占据剩余空间 */
+            flex: 1;
             margin: auto 0;
         }
 
@@ -127,7 +127,6 @@
             letter-spacing: 2px;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
             animation: fadeInUp 1s ease-out;
-            /* 纯白色 */
             color: #ffffff;
             -webkit-text-fill-color: #ffffff;
             background: none;
@@ -144,7 +143,7 @@
         /* 卡片网格布局 */
         .nav-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 改为三列，因为只有三个卡片 */
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             width: 100%;
             max-width: 900px;
@@ -195,11 +194,11 @@
             display: none;
         }
 
-        /* 快速访问区域 */
+        /* 快速访问区域 - 电脑端优化加大间距 */
         .quick-access {
             width: 100%;
-            max-width: 700px;
-            margin: 15px auto;
+            max-width: 800px;
+            margin: 20px auto;
             animation: fadeIn 2.5s ease-out;
         }
 
@@ -207,42 +206,41 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px;
+            gap: 16px; /* 电脑端默认加大间距 */
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
-            padding: 10px 15px;
-            border-radius: 40px;
+            padding: 14px 25px; /* 增加内边距 */
+            border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .quick-link {
             color: white;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 1rem; /* 电脑端稍微增大字体 */
             font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 30px;
+            padding: 8px 20px; /* 增加链接内边距 */
+            border-radius: 40px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid transparent;
-            cursor: pointer; /* 确保鼠标样式正确 */
+            cursor: pointer;
         }
 
         .quick-link:hover {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         .quick-link i {
-            font-size: 0.9rem;
-            opacity: 0.9;
+            font-size: 1rem;
         }
 
-        /* 页脚 - 固定在底部，确保链接可点击 */
+        /* 页脚 - 固定在底部 */
         .footer {
             width: 100%;
             text-align: center;
@@ -255,8 +253,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            z-index: 10; /* 提高层级确保可点击 */
-            pointer-events: auto; /* 确保可点击 */
+            z-index: 10;
+            pointer-events: auto;
         }
 
         .footer p {
@@ -279,10 +277,10 @@
             text-decoration: none;
             margin: 0 6px;
             transition: all 0.2s;
-            display: inline-block; /* 确保可点击区域正确 */
+            display: inline-block;
             padding: 2px 0;
             position: relative;
-            z-index: 11; /* 确保链接在最上层 */
+            z-index: 11;
         }
 
         .footer a:hover {
@@ -291,19 +289,23 @@
             opacity: 1;
         }
 
-        /* 响应式设计 - 电脑端 */
-        @media (min-width: 1024px) {
-            .nav-grid {
-                grid-template-columns: repeat(3, 1fr);
-                margin: 20px auto;
-            }
-            
+        /* 电脑端进一步优化大屏幕显示 */
+        @media (min-width: 1200px) {
             .quick-access {
-                margin: 20px auto;
+                max-width: 900px;
+                margin: 25px auto;
+            }
+            .quick-links {
+                gap: 20px;
+                padding: 16px 30px;
+            }
+            .quick-link {
+                font-size: 1.05rem;
+                padding: 8px 22px;
             }
         }
 
-        /* 平板端 */
+        /* 平板端 - 保持合适间距 */
         @media (max-width: 1023px) and (min-width: 768px) {
             .main-title {
                 font-size: 2.8rem;
@@ -320,18 +322,24 @@
                 margin: 20px auto;
             }
             
+            .quick-access {
+                max-width: 700px;
+                margin: 20px auto;
+            }
+            
             .quick-links {
-                border-radius: 40px;
-                padding: 12px 18px;
+                gap: 14px;
+                padding: 12px 22px;
+                border-radius: 50px;
             }
             
             .quick-link {
-                font-size: 0.9rem;
-                padding: 6px 14px;
+                font-size: 0.95rem;
+                padding: 7px 18px;
             }
         }
 
-        /* 手机端 */
+        /* 手机端 - 保持原有紧凑样式，与电脑端区分 */
         @media (max-width: 767px) {
             body, .slideshow-container, .main-content {
                 height: -webkit-fill-available;
@@ -397,19 +405,22 @@
                 opacity: 0.7;
             }
             
+            /* 手机端快速访问 - 保持紧凑样式 */
             .quick-access {
                 margin: 10px auto;
+                max-width: 100%;
             }
             
             .quick-links {
+                gap: 6px; /* 手机端保持小间隙 */
+                padding: 8px 12px; /* 手机端较小内边距 */
                 border-radius: 30px;
-                padding: 8px 10px;
-                gap: 5px;
             }
             
             .quick-link {
-                padding: 5px 8px;
+                padding: 5px 10px;
                 font-size: 0.75rem;
+                gap: 4px;
             }
             
             .quick-link i {
@@ -464,6 +475,7 @@
                 align-items: center;
                 border-radius: 20px;
                 padding: 8px;
+                gap: 4px;
             }
             
             .quick-link {
@@ -526,6 +538,7 @@
             
             .quick-links {
                 padding: 6px 12px;
+                gap: 6px;
             }
             
             .quick-link {
@@ -629,7 +642,7 @@
                     </a>
                 </div>
                 
-                <!-- 快速访问链接 -->
+                <!-- 快速访问链接 - 电脑端已优化间距，手机端保持紧凑 -->
                 <div class="quick-access">
                     <div class="quick-links">
                         <a href="/study" target="_blank" class="quick-link">
@@ -646,7 +659,7 @@
             </div>
         </div>
         
-        <!-- 页脚 - 固定在底部，链接已修复可点击 -->
+        <!-- 页脚 - 固定在底部 -->
         <div class="footer">
             <p class="links-line">
                 <a href="https://www.noi.cn/" target="_blank">竞赛信息</a> · <a href="/about" target="_blank">关于我们</a> · <a href="/terms" target="_blank">使用条款</a>  
@@ -728,9 +741,6 @@
         window.addEventListener('resize', setVH);
         window.addEventListener('orientationchange', setVH);
         setVH();
-
-        // 额外确保页脚链接可点击（调试用，实际已通过CSS解决）
-        console.log('页面加载完成，页脚链接已修复可点击');
     </script>
 </body>
 </html>

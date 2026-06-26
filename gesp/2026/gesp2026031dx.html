@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>202503 1 单选题</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet"/>
+  <!-- 数学公式支持 -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    /* 基础样式 - 暗色主题 */
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      padding: 15px;
+      background-color: #121212;
+      color: #e0e0e0;
+      line-height: 1.6;
+      margin: 0;
+      min-height: 100vh;
+    }
+    
+    h1, h2 {
+      color: #ffffff;
+      margin-top: 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #333;
+      word-wrap: break-word;
+    }
+    
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 25px;
+    }
+    
+    /* 题目区域 */
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      border-left: 4px solid #2a7fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .question p {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    
+    .question small {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    
+    /* 选项样式 */
+    label {
+      display: block;
+      padding: 14px 16px;
+      margin: 10px 0;
+      background-color: #252525;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      font-size: 1rem;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+    }
+    
+    label:active {
+      background-color: #2d2d2d;
+      transform: scale(0.98);
+    }
+    
+    input[type="radio"],
+    input[type="checkbox"] {
+      margin-right: 15px;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      accent-color: #2a7fff;
+    }
+    
+    /* 反馈信息 */
+    .correct {
+      color: #4caf50;
+      font-weight: bold;
+    }
+    
+    .wrong {
+      color: #f44336;
+      font-weight: bold;
+    }
+    
+    .feedback {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: #252525;
+      border-left: 4px solid #444;
+      font-size: 0.95rem;
+    }
+
+    /* 进度条样式 */
+    .progress-container {
+      width: 100%;
+      background-color: #2d2d2d;
+      border-radius: 25px;
+      margin: 25px 0;
+      height: 35px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    }
+    
+    .progress-bar {
+      height: 100%;
+      border-radius: 25px;
+      text-align: center;
+      line-height: 35px;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      width: 0%;
+      transition: width 1s ease-in-out;
+      background: linear-gradient(90deg, #2a7fff, #00bcd4);
+      min-width: 35px;
+    }
+
+    /* 倒计时 - 手机端优化 */
+    #timer {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #64b5f6;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      background-color: rgba(26, 26, 26, 0.95);
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      border: 2px solid #2a7fff;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      margin-bottom: 20px;
+      width: auto;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* 提交按钮样式 */
+    button {
+      margin: 30px auto;
+      padding: 18px 30px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #2a7fff, #1a5fd8);
+      color: white;
+      cursor: pointer;
+      display: block;
+      width: 90%;
+      max-width: 300px;
+      transition: all 0.3s;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(42, 127, 255, 0.4);
+      letter-spacing: 1px;
+      touch-action: manipulation;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    button:active::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(40, 40);
+        opacity: 0;
+      }
+    }
+    
+    button:active {
+      transform: scale(0.98);
+      background: linear-gradient(135deg, #0d47a1, #08306b);
+    }
+
+    /* 代码块样式 */
+    pre[class*="language-"] {
+      background-color: #1a1a1a !important;
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin: 15px 0;
+      padding: 15px !important;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    code[class*="language-"] {
+      font-size: 0.85rem;
+      text-shadow: none !important;
+      color: #e0e0e0;
+    }
+
+    /* 滚动条样式 - 手机端优化 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #444;
+      border-radius: 4px;
+    }
+
+    /* 选中文字样式 */
+    ::selection {
+      background-color: rgba(42, 127, 255, 0.3);
+      color: white;
+    }
+
+    /* 防止文字选择 */
+    .question label {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 平板设备适配 */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      body {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .question p {
+        font-size: 1.2rem;
+      }
+      
+      pre[class*="language-"] {
+        font-size: 0.9rem;
+      }
+      
+      button {
+        width: 70%;
+        max-width: 400px;
+      }
+      
+      #timer {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        left: auto;
+        transform: none;
+        width: auto;
+      }
+    }
+
+    /* 手机端特殊适配 */
+    @media (max-width: 767px) {
+      /* 小屏幕手机 */
+      @media (max-width: 360px) {
+        body {
+          padding: 10px;
+        }
+        
+        .question {
+          padding: 12px;
+        }
+        
+        label {
+          padding: 12px;
+          font-size: 0.95rem;
+          min-height: 50px;
+        }
+        
+        button {
+          width: 95%;
+          padding: 16px;
+          font-size: 1.1rem;
+        }
+        
+        h1 {
+          font-size: 1.3rem;
+        }
+      }
+      
+      /* 横屏模式 */
+      @media (max-height: 500px) and (orientation: landscape) {
+        body {
+          padding: 10px;
+        }
+        
+        .question {
+          margin-bottom: 15px;
+          padding: 12px;
+        }
+        
+        label {
+          padding: 10px 12px;
+          min-height: 45px;
+          font-size: 0.9rem;
+        }
+        
+        #timer {
+          top: 5px;
+          padding: 8px 12px;
+          font-size: 1rem;
+        }
+        
+        h1 {
+          font-size: 1.2rem;
+          margin-bottom: 15px;
+        }
+      }
+      
+      /* 防止输入法遮挡 */
+      .question:last-child {
+        margin-bottom: 100px;
+      }
+      
+      /* 触摸优化 */
+      label, button {
+        -webkit-touch-callout: none;
+      }
+      
+      /* 字体大小优化 */
+      html {
+        font-size: 16px;
+      }
+    }
+
+    /* 大屏幕适配 */
+    @media (min-width: 1200px) {
+      body {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 30px;
+      }
+      
+      .question {
+        padding: 20px;
+      }
+      
+      button {
+        max-width: 400px;
+      }
+    }
+
+    /* 深色模式增强 */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #0a0a0a;
+      }
+      
+      .question, .feedback {
+        background-color: #151515;
+      }
+    }
+
+    /* 无障碍访问优化 */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
+      
+      button::after {
+        display: none;
+      }
+    }
+
+    /* 数学公式适配 */
+    .MathJax {
+      color: #e0e0e0 !important;
+      font-size: 1.1em !important;
+    }
+    
+    mjx-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+  </style>
+</head>
+<body>
+  <h1>2025年3月 一级 单选题（每题 2 分，共 30 分）</h1>
+
+  <!-- 倒计时显示 -->
+  <div id="timer">剩余时间：30:00</div>
+
+  <!-- 题目区域 -->
+  <div id="quiz"></div>
+  <button onclick="submitQuiz()">提交答案</button>
+
+  <h2 id="result"></h2>
+  <div class="progress-container">
+    <div id="progress-bar" class="progress-bar">0%</div>
+  </div>
+
+  <!-- Prism 高亮库 -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+
+  <script>
+    // 题目数据
+const questions = [
+  {
+    text: "第1题2026年春节联欢晚会上一个武术表演节目《武BOT》。节目中多个人形机器人会表演空翻，它们落地可能会有微微跟跑，但都会迅速调整姿态站稳，并适当移动来和前后左右的其他机器人保持原来队列。如果将机器人视作一个计算机系统，那么在该计算机系统中下面哪一项不能作为输入设备（）。",
+    options: [
+      { text: "A. 检测重心的重力传感器", code: "" },
+      { text: "B. 预装的AI算法程序", code: "" },
+      { text: "C. 接收动作指令的遥控器", code: "" },
+      { text: "D. 拍摄其他机器人的摄像头", code: "" }
+    ],
+    answer: [1],
+    rule: "all",
+    score: 2,
+    code: ``
+  },
+  {
+    text: "第2题小明学习编程有一段时间了，他想在图形环境下把当前目录（或文件夹）下的文本文件20260314. txt的名字改一下。他用鼠标左键点击选中该文件后，立即完成下面哪个操作后将处于输入新文件名的状态（）。",
+    options: [
+      { text: "A. 单击右键并选择弹出菜单中的“重命名”", code: "" },
+      { text: "B. 双击左键", code: "" },
+      { text: "C. 按功能键F1", code: "" },
+      { text: "D. 按回车键", code: "" }
+    ],
+    answer: [0],
+    rule: "all",
+    score: 2,
+    code: ``
+  },
+  {
+    text: "第3题下面C++代码可以执行，有关说法正确的是（   ）。",
+    options: [
+      { text: "A. 为了方便初学者，cout<<（PI）和cout<<（pi）效果相同，即变量的大小写不敏感", code: "" },
+      { text: "B. cout<<（PI）修改为cout<<（Pi）能正常执行", code: "" },
+      { text: "C. 不能用PI做变量名，因为要保存圆周率这个常量", code: "" },
+      { text: "D. 将程序中全部PI都改写为Pai，将能正常执行，不会报错", code: "" }
+    ],
+    answer: [3],
+    rule: "all",
+    score: 2,
+    code: `double PI = 3.1415926\ncout<<（PI);`
+  },
+  {
+    text: "第4题C++表达式 3*3%2 的值为（   ）。",
+    options: [
+      { text: "A. 81", code: "" },
+      { text: "B. 27", code: "" },
+      { text: "C. 4", code: "" },
+      { text: "D. 1", code: "" }
+    ],
+    answer: [3],
+    rule: "all",
+    score: 2,
+    code: ``
+  },
+  {
+    text: "第5题整型变量 a 、 b 的初值都是 4，则下⾯的C++代码执⾏后的输出是（　　）",
+    options: [
+      { text: "", code: "A. \n 61 \n 43" },
+      { text: "", code: "B. \n 52 \n 34" },
+      { text: "", code: "C. \n 62 \n 44" },
+      { text: "", code: "D. \n 62 \n 32" }
+    ],
+    answer: [0],
+    rule: "all",
+    score: 2,
+    code: ` a, b = 3, 4;\n cout << (a + 2) << (b - 2) << endl;\n cout << a << b << endl;
+`
+  },
+  {
+    text: "第6题下面C++代码的相关说法，正确的是（ ）。",
+    options: [
+      { text: "A. 执行时如输入10，则将输出10", code: "" },
+      { text: "B. 执行时如输入3.14，将报错", code: "" },
+      { text: "C. 执行时如输入ABC，将报错", code: "" },
+      { text: "D. 执行时如输入-10，将报错", code: "" }
+    ],
+    answer: [0],
+    rule: "all",
+    score: 2,
+    code: `int N = 0\ncin >> N;\ncout << (N);`
+  },
+  {
+    text: "第7题下面C++代码执行时，其说法正确的是（ ）。",
+    options: [
+      { text: "A. 如果输入一个正数和一个负数，其输出结果肯定是大于0", code: "" },
+      { text: "B. 不管是负整数、正整数亦或0，其结果肯定是大于等于0", code: "" },
+      { text: "C. 如果N和M是相等的整数，将不会有输出", code: "" },
+      { text: "D. 如果N和M输入带有小数点的数，将按整数部分计算", code: "" }
+    ],
+    answer: [1],
+    rule: "all",
+    score: 2,
+    code: `int M = 0， N = 0\ncin >> M;\ncin >> N;\nif (N > M)\n    cout << (N - M);\nelse\n    cout << (M - N);`
+  },
+  {
+    text: "第8题下面C++代码执行后的输出是（ ）。",
+    options: [
+      { text: "A. 24 5", code: "" },
+      { text: "B. 10 5", code: "" },
+      { text: "C.  0 4", code: "" },
+      { text: "D.  0 5", code: "" }
+    ],
+    answer: [3],
+    rule: "all",
+    score: 2,
+    code: `int i, tnt = 1;\nfor (i = 0; i < 5; i++)\n    tnt *= i;\nprintf(\"%2d%2d\\n\", tnt, i);`
+  },
+  {
+    text: "第9题执行下面C++代码段求序列 -1+2+3-4+5+6-7+8+9-10+11+12......之值。例如输入4，则计算序列前4项的值，规律如序列所示，输出为0。下面说法中正确的是（）。",
+    options: [
+      { text: "A. L1行中i < N+1应该修为i < N才会符合预期", code: "" },
+      { text: "B. L2行中i%3==1应修改为i%3==0才会符合预期", code: "" },
+      { text: "C. L2行中i%3==1修改为i%3与当前程序效果相同", code: "" },
+      { text: "D. 当前代码能实现题目所描述计算目标", code: "" }
+    ],
+    answer: [3],
+    rule: "all",
+    score: 2,
+    code: `int N, tnt, i;\ncout << \"请输入正整数：\"\ncin >> N;\ntnt = 0;\nfor (i = 1; i < N + 1; i++) // L1\n    if (i % 3 == 1) // L2\n        tnt += -i;\n    else\n        tnt += i;\ncout << tnt;`
+  },
+  {
+    text: "第10题下面C++代码的相关说法，正确的是（  ）。",
+    options: [
+      { text: "A. 上述代码执行后，其输出是1#3#5#7#9#9END", code: "" },
+      { text: "B. 删除else后的执行效果与当前代码相同", code: "" },
+      { text: "C. 删除else且将cout<< i<<\"#\"移入L1行下面，则执行效果与当前代码相同", code: "" },
+      { text: "D. 在cout << i<< \"END\"前增加判断if(i>10)，其执行效果与当前代码相同", code: "" }
+    ],
+    answer: [1],
+    rule: "all",
+    score: 2,
+    code: `int i;\nfor (i = 1; i < 10; i++){\n    if (i % 2 == 0){\n        continue; // L1\n    }\n    else cout << i << \"#\";\n}\ncout << i << \"END\";`
+  },
+  {
+    text: "第11题一个正整数的每位都是个位数，称为数位，最高位非0。下面的C++代码用于求正整数的所有数位之和，简称数位和。如123的各数位分别是1、2、3，则其数位和为1+2+3，结果为6。为实现该目标，横线处应该填写的代码是（）。",
+    options: [
+      { text: "", code: `tnt += N/10;\nN /= 10;` },
+      { text: "", code: `tnt += N%10;\nN /= 10;` },
+      { text: "", code: `tnt += N/10;\nN %= 10;` },
+      { text: "", code: `tnt += tnt + N%10;\nN %= 10;` }
+    ],
+    answer: [1],
+    rule: "all",
+    score: 2,
+    code: `int N;\ncin >> N;\nint tnt = 0;\nwhile (N != 0){\n    ______________\n    ______________\n}\ncout << \"N的数和为：\" << tnt;`
+  },
+  {
+    text: "第12题小明想要快速知道任给一个正整数中有多少个奇数位(数位值是奇数)，下面的C++代码是其实现，横线处应该填入的代码是（）。",
+    options: [
+      { text: "A. N%10%2==0", code: "" },
+      { text: "B. N%10%2==1", code: "" },
+      { text: "C. N/10/2==1", code: "" },
+      { text: "D. N/2/10==0", code: "" }
+    ],
+    answer: [1],
+    rule: "all",
+    score: 2,
+    code: `int N;\ncin >> N;\nint odd_count = 0；//记录奇数的个数\nint old_number = N；//保存原数\nwhile (N != 0){\n    if ( ______________ )\n        odd_count += 1;\n    N = (N- N%10)/10;\n}\ncout << old_number << \"中共有\" << odd_count << \"个奇数\";`
+  },
+  {
+    text: "第13题小明和弟弟在玩一个拼数字游戏，游戏规则是：二人各写一个两位正整数M和N；然后将较大的数字放在较小的前面，拼成一个4位数；将这个4位数除以3的余数添加到4位数的后面，得到一个5位数；最后判断这个5位数能否被14整除。下面的C++代码用于判断M和N是否符合全部要求，如果符合则输出Y否则输出N。例如输入85和79，可以拼出85792，恰好是14的倍数，则输出Y。关于下面代码描述正确的是（）。",
+    options: [
+      { text: "A. 代码段不能完成正确判断", code: "" },
+      { text: "B. L1行代码中条件应该改为M<=N", code: "" },
+      { text: "C. L2行代码应该改为if（（Q*10+Q/3）%14==0）", code: "" },
+      { text: "D. 代码段可以不使用变量Q，而是在区分M和N大小后分别直接用它们来判断", code: "" }
+    ],
+    answer: [3],
+    rule: "all",
+    score: 2,
+    code: `int M, N, Q;\ncin >> M >> N;\nif(M > N) // L1\n    Q = M*100+N;\nelse\n    Q = N*100+M;\nif((Q*10+Q%3) % 14 == 0) // L2\n    cout << \"Y\";\nelse\n    cout << \"N\";`
+  },
+  {
+    text: "第14题执行下面C++代码可以判断一个6位正整数N的高3位和低3位的差是否是314的倍数。例如628314就符合要求。横线处应该填入（）。",
+    options: [
+      { text: "A. ((N%1000)-（N/1000）)/314==0", code: "" },
+      { text: "B. （（N/1000）-（N%1000）)%314==0", code: "" },
+      { text: "C. （（N%1000）-（N/1000）)/314", code: "" },
+      { text: "D. （（N/1000）-（N%1000）)%314", code: "" }
+    ],
+    answer: [1],
+    rule: "all",
+    score: 2,
+    code: `cin >> N;\nif ( ______________ )\n    cout << N << \"符合条件\" << endl;`
+  },
+  {
+    text: "第15题N是一个正整数。如果N的所有奇数位的数位和等于所有偶数位的数位和，则称它是一个\"双螺旋数\"。例如12375的所有奇数位的数位和是9，同时它的所有偶数位的数位和也是9，则12375就是一个双螺旋数。下面的C++代码用于判断输入的N是否为双螺旋数。空白处应该填入的代码是（）。",
+    options: [
+      { text: "", code: `N1 += N%10, N /= 10;\nN2 += N%10, N /= 10;` },
+      { text: "", code: `N1 += N/10, N /= 10;\nN2 += N/10, N /= 10;` },
+      { text: "", code: `N1+=N%10,N%=10;\nN2+=N%10,N%=10;` },
+      { text: "", code: `N1+=N/10,N%=10;\nN2+=N/10,N%=10;` }
+    ],
+    answer: [0],
+    rule: "all",
+    score: 2,
+    code: `int i, N, N1=0, N2=0, N0;\ncin >> N;\nN0 = N;\nwhile (N){\n    ______________\n    ______________\n}\nif(N1 == N2)\n    cout << N0 << \"是双螺旋数\" << endl;`
+  }
+];
+
+    // 渲染题目
+    const quizDiv = document.getElementById("quiz");
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      const isMulti = q.answer.length > 1 || q.rule === "any";
+
+      // 每道题目的内容，包括题目、代码段和选择题选项
+      div.innerHTML = `<p id="q${i}-text">${q.text} <small>（${q.score}分）</small></p>` 
+        + (q.code ? `<pre><code class="language-cpp">${q.code}</code></pre>` : "")  // 显示代码框，只有代码不为空时
+        + q.options.map((opt, j) => {
+          return `<label>
+                    <input type="${isMulti ? "checkbox" : "radio"}" name="q${i}" value="${j}">
+                    ${opt.text} 
+                    ${opt.code ? `<pre><code class="language-cpp">${opt.code}</code></pre>` : ""}
+                  </label><br>`;
+        }).join("") 
+        + `<p class="feedback" id="feedback${i}"></p>`;
+      
+      // 将渲染的题目添加到 quizDiv 中
+      quizDiv.appendChild(div);
+    });
+
+    // 数学公式渲染
+    if (window.MathJax) {
+      MathJax.typeset();
+    }
+
+    // 手机端触摸优化
+    document.addEventListener('touchstart', function(e) {
+      if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') {
+        e.target.classList.add('active');
+      }
+    }, { passive: true });
+    
+    document.addEventListener('touchend', function(e) {
+      document.querySelectorAll('label.active').forEach(el => {
+        el.classList.remove('active');
+      });
+    }, { passive: true });
+
+    // 提交判分
+    function submitQuiz(auto=false) {
+      let totalScore = 0;
+      let maxScore = questions.reduce((sum, q) => sum + q.score, 0);
+
+      questions.forEach((q, i) => {
+        const selected = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(el => parseInt(el.value));
+        let isCorrect = false;
+
+        if (q.rule === "all") {
+          isCorrect = selected.length === q.answer.length && selected.every(v => q.answer.includes(v));
+        } else if (q.rule === "any") {
+          const hasCorrect = selected.some(v => q.answer.includes(v));
+          const hasWrong = selected.some(v => !q.answer.includes(v));
+          isCorrect = hasCorrect && !hasWrong;
+        }
+
+        if (isCorrect) totalScore += q.score;
+        const correctText = q.answer.map(idx => q.options[idx].text).join("，");
+
+        document.getElementById(`feedback${i}`).innerHTML = isCorrect
+          ? `<span class='correct'>✔ 正确 (${q.score}分)</span> 正确答案：${correctText}`
+          : `<span class='wrong'>✘ 错误 (0分)</span> 正确答案：${correctText}`;
+      });
+
+      const percent = Math.round((totalScore / maxScore) * 100);
+      const bar = document.getElementById("progress-bar");
+      bar.style.width = percent + "%";
+      bar.innerText = percent + "%";
+      
+      // 根据分数设置进度条颜色
+      if (percent < 50) {
+        bar.style.background = "linear-gradient(90deg, #f44336, #d32f2f)";
+      } else if (percent < 80) {
+        bar.style.background = "linear-gradient(90deg, #ff9800, #f57c00)";
+      } else {
+        bar.style.background = "linear-gradient(90deg, #4caf50, #2e7d32)";
+      }
+
+      document.getElementById("result").innerText = 
+        (auto ? "⏰ 时间到，已自动提交！ " : "") + `总分：${totalScore}/${maxScore}`;
+
+      clearInterval(timerInterval);
+      
+      // 手机端滚动到结果
+      if ('scrollBehavior' in document.documentElement.style) {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        });
+      } else {
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    }
+
+    // 倒计时逻辑
+    let timeLeft = 1800; // 30分钟
+    const timerDiv = document.getElementById("timer");
+    
+    function formatTime(s) {
+      const m = String(Math.floor(s / 60)).padStart(2, "0");
+      const sec = String(s % 60).padStart(2, "0");
+      return `${m}:${sec}`;
+    }
+
+    const timerInterval = setInterval(() => {
+      timeLeft--;
+      timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+      
+      // 根据剩余时间改变颜色
+      if (timeLeft <= 60) {
+        timerDiv.style.color = "#f44336";
+        timerDiv.style.borderColor = "#f44336";
+        timerDiv.style.background = "rgba(244, 67, 54, 0.1)";
+      } else if (timeLeft <= 300) {
+        timerDiv.style.color = "#ff9800";
+        timerDiv.style.borderColor = "#ff9800";
+        timerDiv.style.background = "rgba(255, 152, 0, 0.1)";
+      }
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitQuiz(true);
+      }
+    }, 1000);
+
+    timerDiv.innerText = `剩余时间：${formatTime(timeLeft)}`;
+    
+    // 手机端防止缩放
+    document.addEventListener('touchmove', function(e) {
+      if(e.scale !== 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+    
+    // 阻止双击缩放
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+  </script>
+</body>
+</html>
